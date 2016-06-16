@@ -1,0 +1,34 @@
+<?xml version="1.0"?>
+<project
+    xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd"
+    xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+
+    <modelVersion>4.0.0</modelVersion>
+
+    <parent>
+        <groupId>com.coherentlogic.coherent.data.adapter.openfigi</groupId>
+        <artifactId>client</artifactId>
+        <version>0.8.5-RELEASE</version>
+    </parent>
+
+    <groupId>com.coherentlogic.coherent.data.adapter.openfigi</groupId>
+    <artifactId>openfigi-client-core-it</artifactId>
+
+    <name>openfigi-client-core-it</name>
+    <url>openfigi-client-core-it</url>
+
+    <properties>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+    </properties>
+    <dependencies>
+        <dependency>
+            <groupId>com.coherentlogic.coherent.data.adapter.openfigi</groupId>
+            <artifactId>openfigi-client-core</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>junit</groupId>
+            <artifactId>junit</artifactId>
+            <scope>test</scope>
+        </dependency>
+    </dependencies>
+</project>

@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://maven.apache.org/POM/4.0.0  http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+
+    <parent>
+        <groupId>com.coherentlogic.coherent.data.adapter.openfigi</groupId>
+        <artifactId>client</artifactId>
+        <version>0.8.5-RELEASE</version>
+    </parent>
+
+    <groupId>com.coherentlogic.coherent.data.adapter.openfigi.client</groupId>
+    <artifactId>openfigi-client-example</artifactId>
+    <packaging>jar</packaging>
+
+    <name>Coherent Data Adapter: OpenFIGI Client Example</name>
+    <description>An example application that demonstrates how to use the Coherent Data Adapter: OpenFIGI Client</description>
+    <url>openfigi-client-example</url>
+    <licenses>
+        <license>
+            <name>GNU LESSER GENERAL PUBLIC LICENSE Version 3</name>
+            <url>http://www.gnu.org/licenses/lgpl-3.0.txt</url>
+            <distribution>manual</distribution>
+            <comments></comments>
+        </license>
+    </licenses>
+
+    <developers>
+        <developer>
+            <name>Support</name>
+            <email>support@coherentlogic.com</email>
+            <id>support</id>
+            <organization>Coherent Logic Limited</organization>
+            <organizationUrl>www.coherentlogic.com</organizationUrl>
+            <url>www.coherentlogic.com</url>
+            <timezone>+1</timezone>
+            <roles>
+                <role>Support</role>
+            </roles>
+        </developer>
+    </developers>
+
+    <repositories>
+        <repository>
+            <id>sonatype.org</id>
+            <name>SonaType OSS Release Repository</name>
+            <url>https://oss.sonatype.org/content/repositories/snapshots/</url>
+        </repository>
+    </repositories>
+
+    <dependencies>
+        <dependency>
+            <groupId>com.coherentlogic.coherent.data.adapter.openfigi</groupId>
+            <artifactId>openfigi-client-core</artifactId>
+            <version>${version}</version>
+        </dependency>
+    </dependencies>
+
+    <build>
+        <plugins>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-source-plugin</artifactId>
+                <executions>
+                    <execution>
+                        <id>attach-sources</id>
+                        <goals>
+                            <goal>jar</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
+        </plugins>
+    </build>
+</project>
