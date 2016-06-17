@@ -1,0 +1,63 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:context="http://www.springframework.org/schema/context"
+    xsi:schemaLocation="http://www.springframework.org/schema/beans
+        http://www.springframework.org/schema/beans/spring-beans.xsd
+        http://www.springframework.org/schema/context
+        http://www.springframework.org/schema/context/spring-context.xsd">
+
+    <!-- context:property-placeholder location="classpath:spring/application.properties" /
+      -->
+
+    <bean id="restTemplate" class="org.springframework.web.client.RestTemplate">
+        <property name="messageConverters">
+            <list>
+                <bean id="xstreamMessageConverter"
+                    class="org.springframework.http.converter.xml.MarshallingHttpMessageConverter">
+                    <property name="marshaller" ref="xstreamMarshaller" />
+                    <property name="unmarshaller" ref="xstreamMarshaller" />
+                </bean>
+            </list>
+        </property>
+    </bean>
+
+    <bean id="fredOutputTypeConverter" class="com.coherentlogic.fred.client.core.converters.OutputTypeEnumConverter">
+        <constructor-arg name="type" value="com.coherentlogic.fred.client.core.domain.OutputType"/>
+    </bean>
+
+    <bean id="xstreamMarshaller" class="org.springframework.oxm.xstream.XStreamMarshaller">
+        <!-- Underscores in attributes cause problems with XStream and the stream driver below
+             addresses this issue - in particular see the XmlFriendlyReplacer.
+          -->
+        <property name="streamDriver">
+            <bean class="com.thoughtworks.xstream.io.xml.XppDriver">
+                <constructor-arg>
+                    <bean class="com.thoughtworks.xstream.io.xml.XmlFriendlyReplacer">
+                        <constructor-arg index="0" value="_-"/>
+                        <constructor-arg index="1" value="_"/>
+                    </bean>
+                </constructor-arg>
+            </bean>
+        </property>
+        <property name="autodetectAnnotations" value="true" />
+        <property name="annotatedClasses">
+            <array>
+                <value>com.coherentlogic.coherent.data.adapter.openfigi.core.domain.RequestBody</value>
+                <value>com.coherentlogic.coherent.data.adapter.openfigi.core.domain.MappingEntry</value>
+                <value>com.coherentlogic.coherent.data.adapter.openfigi.core.domain.Data</value>
+            </array>
+        </property>
+        <!-- TODO: Consider using annotations exclusively and remove the
+                   converters from here.
+          -->
+        <property name="converters">
+            <array>
+                <ref bean="fredDateConverter"/>
+                <ref bean="fredOutputTypeConverter"/>
+                <ref bean="fredSortOrderConverter"/>
+                <ref bean="fredOrderByEnumConverter"/>
+                <ref bean="fredFilterValueEnumConverter"/>
+            </array>
+        </property>
+    </bean>
+</beans>
+

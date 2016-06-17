@@ -52,7 +52,6 @@
         <dependency>
             <groupId>com.coherentlogic.coherent.data.adapter.openfigi</groupId>
             <artifactId>openfigi-client-core</artifactId>
-            <version>${version}</version>
         </dependency>
     </dependencies>
 

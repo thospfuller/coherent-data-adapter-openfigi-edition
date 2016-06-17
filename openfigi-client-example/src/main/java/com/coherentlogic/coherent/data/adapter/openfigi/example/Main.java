@@ -11,7 +11,7 @@ public class Main {
 
         Data data = queryBuilder
             .withApiKey("some key")
-            .withContentTypeAsTextJson()
+            .withContentTypeAsApplicationJson()
             .getRequestBody()
                 .clear()
                 .newMappingEntry()

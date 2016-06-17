@@ -3,10 +3,12 @@ package com.coherentlogic.coherent.data.adapter.openfigi.core.builders;
 import javax.ws.rs.core.UriBuilder;
 
 import org.springframework.http.HttpEntity;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpMethod;
+import org.springframework.http.MediaType;
+import org.springframework.util.MultiValueMap;
 import org.springframework.web.client.RestTemplate;
 
-import com.coherentlogic.coherent.data.adapter.openfigi.core.domain.Data;
 import com.coherentlogic.coherent.data.adapter.openfigi.core.domain.MappingEntry;
 import com.coherentlogic.coherent.data.adapter.openfigi.core.domain.RequestBody;
 import com.coherentlogic.coherent.data.model.core.builders.HTTPPostMethodSpecification;
@@ -30,6 +32,8 @@ public class QueryBuilder extends AbstractRESTQueryBuilder implements HTTPPostMe
 
     private MappingEntry currentMappingEntry;
 
+    private HttpHeaders headers;
+
     private final HttpEntity<RequestBody> entity;
 
     public QueryBuilder(RestTemplate restTemplate) {
@@ -39,53 +43,65 @@ public class QueryBuilder extends AbstractRESTQueryBuilder implements HTTPPostMe
     public QueryBuilder(RestTemplate restTemplate, String uri) {
         super(restTemplate, uri);
         this.requestBody = new RequestBody (this);
-        this.entity = new HttpEntity<RequestBody> (requestBody);
+        headers = new HttpHeaders ();
+        entity = new HttpEntity<RequestBody> (requestBody, headers);
     }
 
     public QueryBuilder(RestTemplate restTemplate, String uri, RequestBody requestBody) {
         super(restTemplate, uri);
         this.requestBody = requestBody;
-        this.entity = new HttpEntity<RequestBody> (requestBody);
+        headers = new HttpHeaders ();
+        this.entity = new HttpEntity<RequestBody> (requestBody, headers);
     }
 
     public QueryBuilder(RestTemplate restTemplate, UriBuilder uriBuilder) {
         super(restTemplate, uriBuilder);
         this.requestBody = new RequestBody (this);
-        this.entity = new HttpEntity<RequestBody> (requestBody);
+        headers = new HttpHeaders ();
+        this.entity = new HttpEntity<RequestBody> (requestBody, headers);
     }
 
     public QueryBuilder(RestTemplate restTemplate, UriBuilder uriBuilder, RequestBody requestBody) {
         super(restTemplate, uriBuilder);
         this.requestBody = requestBody;
-        this.entity = new HttpEntity<RequestBody> (requestBody);
+        headers = new HttpHeaders ();
+        this.entity = new HttpEntity<RequestBody> (requestBody, headers);
     }
 
     public QueryBuilder(RestTemplate restTemplate, String uri,
         CacheServiceProviderSpecification<String, Object> cache) {
         super(restTemplate, uri, cache);
         this.requestBody = new RequestBody (this);
-        this.entity = new HttpEntity<RequestBody> (requestBody);
+        headers = new HttpHeaders ();
+        this.entity = new HttpEntity<RequestBody> (requestBody, headers);
     }
 
     public QueryBuilder(RestTemplate restTemplate, String uri,
         CacheServiceProviderSpecification<String, Object> cache, RequestBody requestBody) {
         super(restTemplate, uri, cache);
         this.requestBody = requestBody;
-        this.entity = new HttpEntity<RequestBody> (requestBody);
+        headers = new HttpHeaders ();
+        this.entity = new HttpEntity<RequestBody> (requestBody, headers);
     }
 
     public QueryBuilder(RestTemplate restTemplate, UriBuilder uriBuilder,
         CacheServiceProviderSpecification<String, Object> cache) {
         super(restTemplate, uriBuilder, cache);
         this.requestBody = new RequestBody (this);
-        this.entity = new HttpEntity<RequestBody> (requestBody);
+        headers = new HttpHeaders ();
+        this.entity = new HttpEntity<RequestBody> (requestBody, headers);
     }
 
-    public QueryBuilder(RestTemplate restTemplate, UriBuilder uriBuilder,
-        CacheServiceProviderSpecification<String, Object> cache, RequestBody requestBody) {
+    public QueryBuilder(
+    	RestTemplate restTemplate,
+    	UriBuilder uriBuilder,
+        CacheServiceProviderSpecification<String, Object> cache,
+        RequestBody requestBody
+    ) {
         super(restTemplate, uriBuilder, cache);
         this.requestBody = requestBody;
-        this.entity = new HttpEntity<RequestBody> (requestBody);
+        headers = new HttpHeaders ();
+        this.entity = new HttpEntity<RequestBody> (requestBody, headers);
     }
 
     public RequestBody getRequestBody() {
@@ -94,20 +110,20 @@ public class QueryBuilder extends AbstractRESTQueryBuilder implements HTTPPostMe
 
     public QueryBuilder withApiKey (String apiKey) {
 
-        entity.getHeaders().set("X-OPENFIGI-APIKEY", apiKey);
+        headers.set("X-OPENFIGI-APIKEY", apiKey);
 
         return this;
     }
 
-    public QueryBuilder withContentType (String contentType) {
+    public QueryBuilder withContentType (MediaType mediaType) {
 
-        entity.getHeaders().set("Content-Type", contentType);
+        headers.setContentType(mediaType);
 
         return this;
     }
 
-    public QueryBuilder withContentTypeAsTextJson () {
-        return withContentType ("text/json");
+    public QueryBuilder withContentTypeAsApplicationJson () {
+        return withContentType (MediaType.APPLICATION_JSON);
     }
 
     /**
@@ -144,7 +160,7 @@ public class QueryBuilder extends AbstractRESTQueryBuilder implements HTTPPostMe
                 "The object " + object +
                 " cannot be cast to type " + type + ".");
         else if (object == null) {
-            result = (T) getRestTemplate().postForObject(escapedURI, requestBody, type);
+            result = (T) getRestTemplate().exchange(escapedURI, HttpMethod.POST, entity, type);//postForObject(escapedURI, requestBody, type);
             cache.put(escapedURI, result);
         }
         return result;
