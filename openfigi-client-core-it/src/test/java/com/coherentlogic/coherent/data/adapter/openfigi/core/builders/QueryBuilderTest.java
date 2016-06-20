@@ -13,6 +13,7 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 import com.coherentlogic.coherent.data.adapter.openfigi.core.configuration.GlobalConfiguration;
 import com.coherentlogic.coherent.data.adapter.openfigi.core.domain.Data;
+import com.coherentlogic.coherent.data.adapter.openfigi.core.domain.ErrorEntry;
 
 /**
  * @author <a href="support@coherentlogic.com">Support</a>
@@ -43,7 +44,7 @@ public class QueryBuilderTest {
      * Running these tests back-to-back can result in a 404.
      */
     @Test
-    public void testGet () {
+    public void testGetWithValidRequest () {
 
         Data data = queryBuilder
             .withApiKey(API_KEY)
@@ -58,5 +59,29 @@ public class QueryBuilderTest {
 
         assertNotNull (data);
         assertEquals(134, data.getEntries().size());
+    }
+
+    /**
+     * Running these tests back-to-back can result in a 404.
+     */
+    @Test
+    public void testGetWithInvalidIdValue () {
+
+        Data data = queryBuilder
+            .withApiKey(API_KEY)
+            .getRequestBody()
+                .clear()
+                .newMappingEntry()
+                    .withIdType("ID_WERTPAPIER")
+                    .withIdValue("851399XXX")
+                .done()
+            .done()
+        .doGet(Data.class);
+
+        ErrorEntry errorEntry = (ErrorEntry) data.getEntries().get(0);
+
+        assertNotNull (data);
+        assertEquals(1, data.getEntries().size());
+        assertEquals("No identifier found.", errorEntry.getError());
     }
 }

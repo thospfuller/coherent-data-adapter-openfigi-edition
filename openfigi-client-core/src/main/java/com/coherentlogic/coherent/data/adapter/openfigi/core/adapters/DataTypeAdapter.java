@@ -1,7 +1,9 @@
 package com.coherentlogic.coherent.data.adapter.openfigi.core.adapters;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.Iterator;
+import java.util.List;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -35,7 +37,7 @@ public class DataTypeAdapter extends TypeAdapter<Data> {
     @Override
     public Data read(JsonReader reader) throws IOException {
 
-        log.info("DATA TYPE ADAPTER!!!");
+        log.info("read: method begins; reader: " + reader);
 
         Data result = new Data ();
 
@@ -49,27 +51,92 @@ public class DataTypeAdapter extends TypeAdapter<Data> {
 
         JsonElement dataElement = resultantObject.get("data");
 
-        JsonArray dataArray = dataElement.getAsJsonArray();
+        List<DataEntry> dataEntries = addData (gson, dataElement);
 
-        log.info("dataArray: " + dataArray);
+        result.getEntries().addAll(dataEntries);
 
-        Iterator<JsonElement> iterator = dataArray.iterator();
+        JsonElement errorElement = resultantObject.get("error");
 
-        while (iterator.hasNext()) {
+        List<ErrorEntry> errorEntries = addErrors(gson, errorElement);
 
-            JsonElement nextElement = iterator.next();
-
-            JsonObject nextObject = nextElement.getAsJsonObject(); // data
-
-            SerializableBean nextEntry = gson.fromJson(nextObject, DataEntry.class);
-
-            result.getEntries().add(nextEntry);
-
-            log.info("nextEntry: " + nextEntry);
-        }
+        result.getEntries().addAll(errorEntries);
 
         reader.endArray ();
 
+        return result;
+    }
+
+    /**
+     * @todo Combine the addData and addErrors methods.
+     */
+    List<DataEntry> addData (Gson gson, JsonElement dataElement) {
+
+        List<DataEntry> result = new ArrayList<DataEntry> ();
+
+        if (dataElement !=null && !dataElement.isJsonNull()) {
+
+            JsonArray dataArray = dataElement.getAsJsonArray();
+
+            log.info("dataArray: " + dataArray);
+
+            Iterator<JsonElement> iterator = dataArray.iterator();
+
+            while (iterator.hasNext()) {
+
+                JsonElement nextElement = iterator.next();
+
+                JsonObject nextObject = nextElement.getAsJsonObject(); // data
+
+                DataEntry nextEntry = gson.fromJson(nextObject, DataEntry.class);
+
+                result.add(nextEntry);
+
+                log.info("nextEntry: " + nextEntry);
+            }
+        }
+        return result;
+    }
+
+    /**
+     * @todo Combine the addData and addErrors methods.
+     */
+    List<ErrorEntry> addErrors (Gson gson, JsonElement errorElement) {
+
+        List<ErrorEntry> result = new ArrayList<ErrorEntry> ();
+
+        if (errorElement !=null && !errorElement.isJsonNull()) {
+
+            if (errorElement.isJsonArray()) {
+
+                JsonArray errorArray = errorElement.getAsJsonArray();
+
+                Iterator<JsonElement> iterator = errorArray.iterator();
+
+                while (iterator.hasNext()) {
+
+                    JsonElement nextElement = iterator.next();
+
+                    JsonObject nextObject = nextElement.getAsJsonObject(); // error
+
+                    ErrorEntry nextEntry = gson.fromJson(nextObject, ErrorEntry.class);
+
+                    result.add(nextEntry);
+
+                    log.info("nextEntry: " + nextEntry);
+                }
+            } else {
+
+                String errorText = errorElement.getAsString();
+
+                log.info("errorText: " + errorText);
+
+                ErrorEntry nextEntry = new ErrorEntry ();
+
+                nextEntry.setError(errorText);
+
+                result.add(nextEntry);
+            }
+        }
         return result;
     }
 
@@ -78,14 +145,3 @@ public class DataTypeAdapter extends TypeAdapter<Data> {
         throw new MethodNotSupportedException ("The write method is not supported.");
     }
 }
-//Map map = (Map) list.get(0);
-//
-//Object object = map.get("data");
-//
-//log.info(">>>>>>>>>>>>>>> map: " + object.getClass());
-
-//Data data = gson.fromJson(, DataEntry.class);
-//
-//log.info("data: " + data);
-
-//reader.endArray();
