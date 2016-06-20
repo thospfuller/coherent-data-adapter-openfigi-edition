@@ -1,24 +1,25 @@
 package com.coherentlogic.coherent.data.adapter.openfigi.core.domain;
 
+import java.util.ArrayList;
+import java.util.List;
+
+import com.coherentlogic.coherent.data.model.core.domain.SerializableBean;
+
 public class Data {
 
-    private String figi;
-    private String name;
-    private String ticker;
-    private String exchangeCode;
-    private String compositeFIGI;
-    private String uniqueID;
-    private String securityType;
-    private String marketSector;
-    private String shareClassFIGI;
-    private String uniqueIDForFutureOption;
-    
-    
-    
+    private final List<SerializableBean> entries;
+
     public Data() {
-        // TODO Auto-generated constructor stub
+        this (new ArrayList<SerializableBean> ());
     }
 
+    public Data(List<SerializableBean> dataEntries) {
+        this.entries = dataEntries;
+    }
+
+    public List<SerializableBean> getEntries() {
+        return entries;
+    }
 }
 //"figi": "BBG000BLNNH6",
 //"name": "INTL BUSINESS MACHINES CORP",

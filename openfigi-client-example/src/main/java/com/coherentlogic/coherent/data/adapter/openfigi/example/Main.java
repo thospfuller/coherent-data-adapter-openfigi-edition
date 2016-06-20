@@ -5,13 +5,16 @@ import com.coherentlogic.coherent.data.adapter.openfigi.core.domain.Data;
 
 public class Main {
 
+    public static final String OPEN_FIGI_API_KEY = "OPEN_FIGI_API_KEY";
+
+    static final String API_KEY = System.getenv(OPEN_FIGI_API_KEY);
+
     private final QueryBuilder queryBuilder = null;
 
     public Main() {
 
         Data data = queryBuilder
-            .withApiKey("some key")
-            .withContentTypeAsApplicationJson()
+            .withApiKey(API_KEY)
             .getRequestBody()
                 .clear()
                 .newMappingEntry()
@@ -19,8 +22,7 @@ public class Main {
                     .withIdValue("851399")
                 .done()
             .done()
-        .doPost(Data.class);
-
+        .doGet(Data.class);
     }
 
     public static void main(String[] args) {

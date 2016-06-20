@@ -1,5 +1,6 @@
 package com.coherentlogic.coherent.data.adapter.openfigi.core.builders;
 
+import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 
 import org.junit.After;
@@ -46,7 +47,6 @@ public class QueryBuilderTest {
 
         Data data = queryBuilder
             .withApiKey(API_KEY)
-            .withContentTypeAsApplicationJson()
             .getRequestBody()
                 .clear()
                 .newMappingEntry()
@@ -54,8 +54,9 @@ public class QueryBuilderTest {
                     .withIdValue("851399")
                 .done()
             .done()
-        .doPost(Data.class);
+        .doGet(Data.class);
 
         assertNotNull (data);
+        assertEquals(134, data.getEntries().size());
     }
 }
