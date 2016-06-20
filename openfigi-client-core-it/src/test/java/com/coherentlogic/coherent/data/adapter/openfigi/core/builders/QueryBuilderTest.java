@@ -40,9 +40,6 @@ public class QueryBuilderTest {
         this.queryBuilder = null;
     }
 
-    /**
-     * Running these tests back-to-back can result in a 404.
-     */
     @Test
     public void testGetWithValidRequest () {
 
@@ -61,9 +58,6 @@ public class QueryBuilderTest {
         assertEquals(134, data.getEntries().size());
     }
 
-    /**
-     * Running these tests back-to-back can result in a 404.
-     */
     @Test
     public void testGetWithLargeValidRequest () {
 
@@ -86,9 +80,6 @@ public class QueryBuilderTest {
         assertEquals(268, data.getEntries().size());
     }
 
-    /**
-     * Running these tests back-to-back can result in a 404.
-     */
     @Test
     public void testGetWithLargeValidRequestAndOneInvalidRequest () {
 
@@ -119,9 +110,6 @@ public class QueryBuilderTest {
         assertEquals("No identifier found.", errorEntry.getError());
     }
 
-    /**
-     * Running these tests back-to-back can result in a 404.
-     */
     @Test
     public void testGetWithInvalidIdValue () {
 
