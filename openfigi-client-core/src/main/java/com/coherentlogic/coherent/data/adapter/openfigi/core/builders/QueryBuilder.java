@@ -1,16 +1,22 @@
 package com.coherentlogic.coherent.data.adapter.openfigi.core.builders;
 
+import java.io.IOException;
+
 import javax.ws.rs.core.UriBuilder;
 
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.MediaType;
-import org.springframework.util.MultiValueMap;
+import org.springframework.http.client.ClientHttpRequest;
+import org.springframework.web.client.RequestCallback;
 import org.springframework.web.client.RestTemplate;
 
+import com.coherentlogic.coherent.data.adapter.openfigi.core.adapters.RequestBodyAdapter;
 import com.coherentlogic.coherent.data.adapter.openfigi.core.domain.MappingEntry;
 import com.coherentlogic.coherent.data.adapter.openfigi.core.domain.RequestBody;
+import com.coherentlogic.coherent.data.adapter.openfigi.core.extractors.DataExtractor;
+import com.coherentlogic.coherent.data.model.core.adapters.InReturnAdapterSpecification;
 import com.coherentlogic.coherent.data.model.core.builders.HTTPPostMethodSpecification;
 import com.coherentlogic.coherent.data.model.core.builders.rest.AbstractRESTQueryBuilder;
 import com.coherentlogic.coherent.data.model.core.cache.CacheServiceProviderSpecification;
@@ -35,6 +41,8 @@ public class QueryBuilder extends AbstractRESTQueryBuilder implements HTTPPostMe
     private HttpHeaders headers;
 
     private final HttpEntity<RequestBody> entity;
+
+    private final InReturnAdapterSpecification<RequestBody, String> requestBodyAdapter = new RequestBodyAdapter ();
 
     public QueryBuilder(RestTemplate restTemplate) {
         this(restTemplate, DEFAULT_URI);
@@ -93,8 +101,8 @@ public class QueryBuilder extends AbstractRESTQueryBuilder implements HTTPPostMe
     }
 
     public QueryBuilder(
-    	RestTemplate restTemplate,
-    	UriBuilder uriBuilder,
+        RestTemplate restTemplate,
+        UriBuilder uriBuilder,
         CacheServiceProviderSpecification<String, Object> cache,
         RequestBody requestBody
     ) {
@@ -160,7 +168,31 @@ public class QueryBuilder extends AbstractRESTQueryBuilder implements HTTPPostMe
                 "The object " + object +
                 " cannot be cast to type " + type + ".");
         else if (object == null) {
-            result = (T) getRestTemplate().exchange(escapedURI, HttpMethod.POST, entity, type);//postForObject(escapedURI, requestBody, type);
+            result = (T) getRestTemplate().execute(
+                escapedURI,
+                HttpMethod.POST,
+                new RequestCallback() {
+
+                    @Override
+                    public void doWithRequest(ClientHttpRequest request) throws IOException {
+                        request.getHeaders().add("X-OPENFIGI-APIKEY", "16597a6c-3abb-4627-b91c-c808666b790c");
+                        request.getHeaders().add("Content-Type", "application/json");
+
+//                        for (String header : headers.)
+
+//                        request.getHeaders().add(headerName, headerValue);
+
+                        String requestBodyJson = requestBodyAdapter.adapt(getRequestBody());
+
+                        System.out.println("requestBodyJson: " + requestBodyJson);
+
+                        // "[{\"idType\":\"ID_WERTPAPIER\",\"idValue\":\"851399\"}]"
+                        
+                        request.getBody().write(requestBodyJson.getBytes());
+                    }
+                },
+                new DataExtractor ()
+            );//postForObject(escapedURI, requestBody, type););//exchange(escapedURI, HttpMethod.POST, entity, type);//postForObject(escapedURI, requestBody, type);
             cache.put(escapedURI, result);
         }
         return result;

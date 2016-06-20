@@ -15,6 +15,7 @@ import org.springframework.oxm.xstream.XStreamMarshaller;
 import org.springframework.web.client.RestTemplate;
 
 import com.coherentlogic.coherent.data.adapter.openfigi.core.builders.QueryBuilder;
+import com.coherentlogic.coherent.data.adapter.openfigi.core.converters.RequestBodyConverter;
 import com.coherentlogic.coherent.data.adapter.openfigi.core.domain.Data;
 import com.coherentlogic.coherent.data.adapter.openfigi.core.domain.MappingEntry;
 import com.coherentlogic.coherent.data.adapter.openfigi.core.domain.RequestBody;
@@ -31,16 +32,17 @@ public class GlobalConfiguration {
     @Bean(name=OPEN_FIGI_REST_TEMPLATE)
     public RestTemplate getRestTemplate (@Qualifier(OPEN_FIGI_XSTREAM_MARSHALLER) XStreamMarshaller xStreamMarshaller) {
 
-        MarshallingHttpMessageConverter marshallingHttpMessageConverter = new MarshallingHttpMessageConverter ();
-        marshallingHttpMessageConverter.setMarshaller(xStreamMarshaller);
-        marshallingHttpMessageConverter.setUnmarshaller(xStreamMarshaller);
-        marshallingHttpMessageConverter.setSupportedMediaTypes(Arrays.asList(MediaType.APPLICATION_JSON));
+//        MarshallingHttpMessageConverter marshallingHttpMessageConverter = new MarshallingHttpMessageConverter ();
+//        marshallingHttpMessageConverter.setMarshaller(xStreamMarshaller);
+//        marshallingHttpMessageConverter.setUnmarshaller(xStreamMarshaller);
+//        marshallingHttpMessageConverter.setSupportedMediaTypes(Arrays.asList(MediaType.APPLICATION_JSON));
 
         RestTemplate restTemplate = new RestTemplate();
 
         List<HttpMessageConverter<?>> messageConverters = new ArrayList<HttpMessageConverter<?>> ();
 
-        messageConverters.add(marshallingHttpMessageConverter);
+        messageConverters.add(new RequestBodyConverter ());
+//        messageConverters.add(marshallingHttpMessageConverter);
 
         restTemplate.setMessageConverters(messageConverters);
 
