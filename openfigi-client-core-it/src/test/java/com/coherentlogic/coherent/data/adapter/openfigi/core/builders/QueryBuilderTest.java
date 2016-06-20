@@ -3,6 +3,8 @@ package com.coherentlogic.coherent.data.adapter.openfigi.core.builders;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 
+import java.util.List;
+
 import org.junit.After;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -55,7 +57,7 @@ public class QueryBuilderTest {
         .doGet(Data.class);
 
         assertNotNull (data);
-        assertEquals(134, data.getEntries().size());
+        assertEquals(1, data.getEntries().size());
     }
 
     @Test
@@ -77,7 +79,7 @@ public class QueryBuilderTest {
         .doGet(Data.class);
 
         assertNotNull (data);
-        assertEquals(268, data.getEntries().size());
+        assertEquals(2, data.getEntries().size());
     }
 
     @Test
@@ -103,11 +105,11 @@ public class QueryBuilderTest {
         .doGet(Data.class);
 
         assertNotNull (data);
-        assertEquals(269, data.getEntries().size());
+        assertEquals(3, data.getEntries().size());
 
-        ErrorEntry errorEntry = (ErrorEntry) data.getEntries().get(268);
+        List<ErrorEntry> errorEntries = (List<ErrorEntry>) data.getEntries().get(2);
 
-        assertEquals("No identifier found.", errorEntry.getError());
+        assertEquals("No identifier found.", errorEntries.get(0).getError());
     }
 
     @Test
@@ -124,10 +126,10 @@ public class QueryBuilderTest {
             .done()
         .doGet(Data.class);
 
-        ErrorEntry errorEntry = (ErrorEntry) data.getEntries().get(0);
+        List<ErrorEntry> errorEntries = (List<ErrorEntry>) data.getEntries().get(0);
 
         assertNotNull (data);
         assertEquals(1, data.getEntries().size());
-        assertEquals("No identifier found.", errorEntry.getError());
+        assertEquals("No identifier found.", errorEntries.get(0).getError());
     }
 }

@@ -55,13 +55,15 @@ public class DataTypeAdapter extends TypeAdapter<Data> {
 
             List<DataEntry> dataEntries = addData (gson, dataElement);
 
-            result.getEntries().addAll(dataEntries);
+            if (0 < dataEntries.size())
+                result.getEntries().add(dataEntries);
 
             JsonElement errorElement = resultantObject.get("error");
 
             List<ErrorEntry> errorEntries = addErrors(gson, errorElement);
 
-            result.getEntries().addAll(errorEntries);
+            if (0 < errorEntries.size())
+                result.getEntries().add(errorEntries);
         }
 
         reader.endArray ();

@@ -7,17 +7,17 @@ import com.coherentlogic.coherent.data.model.core.domain.SerializableBean;
 
 public class Data {
 
-    private final List<SerializableBean> entries;
+    private final List<List<? extends SerializableBean>> entries;
 
     public Data() {
-        this (new ArrayList<SerializableBean> ());
+        this (new ArrayList<List<? extends SerializableBean>> ());
     }
 
-    public Data(List<SerializableBean> dataEntries) {
+    public Data(List<List<? extends SerializableBean>> dataEntries) {
         this.entries = dataEntries;
     }
 
-    public List<SerializableBean> getEntries() {
+    public List<List<? extends SerializableBean>> getEntries() {
         return entries;
     }
 }
