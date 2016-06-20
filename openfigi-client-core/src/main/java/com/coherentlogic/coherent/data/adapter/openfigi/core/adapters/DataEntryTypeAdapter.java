@@ -19,7 +19,18 @@ public class DataEntryTypeAdapter extends TypeAdapter<DataEntry> {
     private static final Logger log = LoggerFactory.getLogger(DataEntryTypeAdapter.class);
 
     private final GsonBuilder gsonBuilder = new GsonBuilder();
-    
+
+    public static final String FIGI = "figi",
+        SECURITY_TYPE = "securityType",
+        MARKET_SECTOR = "marketSector",
+        TICKER = "ticker",
+        NAME = "name",
+        UNIQUE_ID = "uniqueID",
+        EXCH_CODE = "exchCode",
+        SHARE_CLASS_FIGI = "shareClassFIGI",
+        COMPOSIT_FIGI = "compositeFIGI",
+        UNIQUE_ID_FUT_OPT = "uniqueIDFutOpt";
+
     @Override
     public DataEntry read(JsonReader reader) throws IOException {
 
@@ -27,70 +38,57 @@ public class DataEntryTypeAdapter extends TypeAdapter<DataEntry> {
 
         JsonObject dataEntryObject = gsonBuilder.create().fromJson(reader, JsonObject.class);
 
-        String figi = dataEntryObject.get("figi").getAsString();
+        JsonElement figi = dataEntryObject.get(FIGI);
 
-        log.info("figi: " + figi);
+        result.setFigi(getAsString (FIGI, figi));
 
-        result.setFigi(figi);
+        JsonElement securityType = dataEntryObject.get(SECURITY_TYPE);
 
-        String securityType = dataEntryObject.get("securityType").getAsString();
+        result.setSecurityType(getAsString (SECURITY_TYPE, securityType));
 
-        log.info("securityType: " + securityType);
+        JsonElement marketSector = dataEntryObject.get(MARKET_SECTOR);
 
-        result.setSecurityType(securityType);
+        result.setMarketSector(getAsString (MARKET_SECTOR, marketSector));
 
-        String marketSector = dataEntryObject.get("marketSector").getAsString();
+        JsonElement ticker = dataEntryObject.get(TICKER);
 
-        log.info("marketSector: " + marketSector);
+        result.setTicker(getAsString (TICKER, ticker));
 
-        result.setMarketSector(marketSector);
+        JsonElement name = dataEntryObject.get(NAME);
 
-        String ticker = dataEntryObject.get("ticker").getAsString();
+        result.setName(getAsString (NAME, name));
 
-        log.info("ticker: " + ticker);
+        JsonElement uniqueID = dataEntryObject.get(UNIQUE_ID);
 
-        result.setTicker(ticker);
+        result.setUniqueID(getAsString (UNIQUE_ID, uniqueID));
 
-        String name = dataEntryObject.get("name").getAsString();
+        JsonElement exchangeCode = dataEntryObject.get(EXCH_CODE);
 
-        log.info("name: " + name);
+        result.setExchangeCode(getAsString (EXCH_CODE, exchangeCode));
 
-        result.setName(name);
+        JsonElement shareClassFIGI = dataEntryObject.get(SHARE_CLASS_FIGI);
 
-        String uniqueID = dataEntryObject.get("uniqueID").getAsString();
+        result.setShareClassFIGI(getAsString (SHARE_CLASS_FIGI, shareClassFIGI));
 
-        log.info("uniqueID: " + uniqueID);
+        JsonElement compositeFigi = dataEntryObject.get(COMPOSIT_FIGI);
 
-        result.setUniqueID(uniqueID);
+        result.setCompositeFIGI(getAsString (COMPOSIT_FIGI, compositeFigi));
 
-        String exchangeCode = dataEntryObject.get("exchCode").getAsString();
+        JsonElement uniqueIDFutOptElement = dataEntryObject.get(UNIQUE_ID_FUT_OPT);
 
-        log.info("exchangeCode: " + exchangeCode);
+        result.setUniqueIDForFutureOption(getAsString (UNIQUE_ID_FUT_OPT, uniqueIDFutOptElement));
 
-        result.setExchangeCode(exchangeCode);
+        return result;
+    }
 
-        String shareClassFIGI = dataEntryObject.get("shareClassFIGI").getAsString();
+    String getAsString (String elementName, JsonElement jsonElement) {
 
-        log.info("shareClassFIGI: " + shareClassFIGI);
+        String result = null;
 
-        result.setShareClassFIGI(shareClassFIGI);
+        if (!jsonElement.isJsonNull())
+            result = jsonElement.getAsString();
 
-        String compositeFigi = dataEntryObject.get("compositeFIGI").getAsString();
-
-        log.info("compositeFigi: " + compositeFigi);
-
-        result.setCompositeFIGI(compositeFigi);
-
-        JsonElement uniqueIDFutOptElement = dataEntryObject.get("uniqueIDFutOpt");
-
-        if (!uniqueIDFutOptElement.isJsonNull()) {
-
-            String uniqueIDForFutureOption = uniqueIDFutOptElement.getAsString();
-
-            log.info("uniqueIDFutOpt: " + uniqueIDForFutureOption);
-
-            result.setUniqueIDForFutureOption(uniqueIDForFutureOption);
-        }
+        log.info(elementName + ": " + result);
 
         return result;
     }

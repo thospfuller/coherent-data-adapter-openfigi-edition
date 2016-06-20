@@ -65,6 +65,64 @@ public class QueryBuilderTest {
      * Running these tests back-to-back can result in a 404.
      */
     @Test
+    public void testGetWithLargeValidRequest () {
+
+        Data data = queryBuilder
+            .withApiKey(API_KEY)
+            .getRequestBody()
+                .clear()
+                .newMappingEntry()
+                    .withIdType("ID_ISIN")
+                    .withIdValue("US4592001014")
+                .done()
+                .newMappingEntry()
+                    .withIdType("ID_WERTPAPIER")
+                    .withIdValue("851399")
+                .done()
+            .done()
+        .doGet(Data.class);
+
+        assertNotNull (data);
+        assertEquals(268, data.getEntries().size());
+    }
+
+    /**
+     * Running these tests back-to-back can result in a 404.
+     */
+    @Test
+    public void testGetWithLargeValidRequestAndOneInvalidRequest () {
+
+        Data data = queryBuilder
+            .withApiKey(API_KEY)
+            .getRequestBody()
+                .clear()
+                .newMappingEntry()
+                    .withIdType("ID_ISIN")
+                    .withIdValue("US4592001014")
+                .done()
+                .newMappingEntry()
+                    .withIdType("ID_WERTPAPIER")
+                    .withIdValue("851399")
+                .done()
+                .newMappingEntry()
+                    .withIdType("ID_WERTPAPIER")
+                    .withIdValue("INVALID")
+                .done()
+            .done()
+        .doGet(Data.class);
+
+        assertNotNull (data);
+        assertEquals(269, data.getEntries().size());
+
+        ErrorEntry errorEntry = (ErrorEntry) data.getEntries().get(268);
+
+        assertEquals("No identifier found.", errorEntry.getError());
+    }
+
+    /**
+     * Running these tests back-to-back can result in a 404.
+     */
+    @Test
     public void testGetWithInvalidIdValue () {
 
         Data data = queryBuilder

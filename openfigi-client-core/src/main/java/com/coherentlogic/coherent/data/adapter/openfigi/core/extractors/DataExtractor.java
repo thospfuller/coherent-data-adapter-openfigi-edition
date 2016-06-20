@@ -40,25 +40,7 @@ public class DataExtractor implements ResponseExtractor {
 
         log.info("json: " + json);
 
-//        JsonElement jsonElement = gsonBuilder.create().fromJson(json, JsonElement.class);
-//
-//        JsonArray jsonArray = jsonElement.getAsJsonArray();
-//
-//        JsonElement dataElement = jsonArray.get(0);
-//
-//        log.info("dataElement: " + dataElement);
-
         Data result = gsonBuilder.create().fromJson(json, Data.class);
-
-//        Map map = (Map) list.get(0);
-//
-//        Object object = map.get("data");
-//
-//        log.info("map: " + object);
-
-//        Data data = gsonBuilder.create().fromJson((Map) list.get(0), Data.class);
-//
-//        log.info("data: " + data);
 
         return result;
     }

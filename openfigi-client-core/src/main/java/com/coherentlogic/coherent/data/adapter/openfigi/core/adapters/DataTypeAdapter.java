@@ -45,21 +45,24 @@ public class DataTypeAdapter extends TypeAdapter<Data> {
 
         reader.beginArray ();
 
-        JsonObject resultantObject = gsonBuilder.create().fromJson(reader, JsonObject.class);
+        while (reader.hasNext()) {
 
-        log.info("resultantObject: " + resultantObject); // both data and errors
+            JsonObject resultantObject = gsonBuilder.create().fromJson(reader, JsonObject.class);
 
-        JsonElement dataElement = resultantObject.get("data");
+            log.info("resultantObject: " + resultantObject); // both data and errors
 
-        List<DataEntry> dataEntries = addData (gson, dataElement);
+            JsonElement dataElement = resultantObject.get("data");
 
-        result.getEntries().addAll(dataEntries);
+            List<DataEntry> dataEntries = addData (gson, dataElement);
 
-        JsonElement errorElement = resultantObject.get("error");
+            result.getEntries().addAll(dataEntries);
 
-        List<ErrorEntry> errorEntries = addErrors(gson, errorElement);
+            JsonElement errorElement = resultantObject.get("error");
 
-        result.getEntries().addAll(errorEntries);
+            List<ErrorEntry> errorEntries = addErrors(gson, errorElement);
+
+            result.getEntries().addAll(errorEntries);
+        }
 
         reader.endArray ();
 
@@ -73,7 +76,7 @@ public class DataTypeAdapter extends TypeAdapter<Data> {
 
         List<DataEntry> result = new ArrayList<DataEntry> ();
 
-        if (dataElement !=null && !dataElement.isJsonNull()) {
+        if (dataElement != null && !dataElement.isJsonNull()) {
 
             JsonArray dataArray = dataElement.getAsJsonArray();
 
