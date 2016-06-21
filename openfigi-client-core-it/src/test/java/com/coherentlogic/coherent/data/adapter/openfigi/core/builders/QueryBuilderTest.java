@@ -67,7 +67,6 @@ public class QueryBuilderTest {
         Data data = queryBuilder
             .withApiKey(API_KEY)
             .getRequestBody()
-                .clear()
                 .newMappingEntry()
                     .withIdType("ID_ISIN")
                     .withIdValue("US4592001014")
@@ -89,7 +88,6 @@ public class QueryBuilderTest {
         Data data = queryBuilder
             .withApiKey(API_KEY)
             .getRequestBody()
-                .clear()
                 .newMappingEntry()
                     .withIdType("ID_ISIN")
                     .withIdValue("US4592001014")
@@ -119,7 +117,6 @@ public class QueryBuilderTest {
         Data data = queryBuilder
             .withApiKey(API_KEY)
             .getRequestBody()
-                .clear()
                 .newMappingEntry()
                     .withIdType("ID_WERTPAPIER")
                     .withIdValue("851399XXX")
