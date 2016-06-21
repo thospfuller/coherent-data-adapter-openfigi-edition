@@ -10,11 +10,11 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
-import org.springframework.context.annotation.ComponentScan;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 import com.coherentlogic.coherent.data.adapter.openfigi.core.configuration.GlobalConfiguration;
+import com.coherentlogic.coherent.data.adapter.openfigi.core.configuration.XMLConfiguration;
 import com.coherentlogic.coherent.data.adapter.openfigi.core.domain.Data;
 import com.coherentlogic.coherent.data.adapter.openfigi.core.domain.ErrorEntry;
 
@@ -22,7 +22,7 @@ import com.coherentlogic.coherent.data.adapter.openfigi.core.domain.ErrorEntry;
  * @author <a href="support@coherentlogic.com">Support</a>
  */
 @RunWith(SpringJUnit4ClassRunner.class)
-@ContextConfiguration(classes={GlobalConfiguration.class})
+@ContextConfiguration(classes={GlobalConfiguration.class, XMLConfiguration.class})
 @SpringBootApplication(scanBasePackages = {"com.coherentlogic.coherent.data.adapter.openfigi"})
 public class QueryBuilderTest {
 
