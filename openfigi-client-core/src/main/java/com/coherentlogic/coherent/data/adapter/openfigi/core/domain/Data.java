@@ -20,14 +20,9 @@ public class Data {
     public List<List<? extends SerializableBean>> getEntries() {
         return entries;
     }
+
+    @Override
+    public String toString() {
+        return "Data [entries=" + entries + "]";
+    }
 }
-//"figi": "BBG000BLNNH6",
-//"name": "INTL BUSINESS MACHINES CORP",
-//"ticker": "IBM",
-//"exchCode": "US",
-//"compositeFIGI": "BBG000BLNNH6",
-//"uniqueID": "EQ0010080100001000",
-//"securityType": "Common Stock",
-//"marketSector": "Equity",
-//"shareClassFIGI": null,
-//"uniqueIDFutOpt": null

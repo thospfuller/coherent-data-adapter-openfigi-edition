@@ -11,8 +11,8 @@ import org.slf4j.LoggerFactory;
 import com.coherentlogic.coherent.data.adapter.openfigi.core.domain.Data;
 import com.coherentlogic.coherent.data.adapter.openfigi.core.domain.DataEntry;
 import com.coherentlogic.coherent.data.adapter.openfigi.core.domain.ErrorEntry;
-import com.coherentlogic.coherent.data.model.core.domain.SerializableBean;
 import com.coherentlogic.coherent.data.model.core.exceptions.MethodNotSupportedException;
+import com.coherentlogic.coherent.data.model.core.factories.TypedFactory;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.JsonArray;
@@ -26,12 +26,22 @@ public class DataTypeAdapter extends TypeAdapter<Data> {
 
     private static final Logger log = LoggerFactory.getLogger(DataTypeAdapter.class);
 
+    public static final String BEAN_NAME = "dataTypeAdapter";
+
     private final GsonBuilder gsonBuilder;
 
-    public DataTypeAdapter() {
-        gsonBuilder = new GsonBuilder ();
-        gsonBuilder.registerTypeAdapter(DataEntry.class, new DataEntryTypeAdapter ());
-        gsonBuilder.registerTypeAdapter(ErrorEntry.class, new ErrorEntryTypeAdapter ());
+    private final TypedFactory<Data> dataFactory;
+
+    public DataTypeAdapter(
+        GsonBuilder gsonBuilder,
+        TypedFactory<Data> dataFactory,
+        DataEntryTypeAdapter dataEntryTypeAdapter,
+        ErrorEntryTypeAdapter errorEntryTypeAdapter
+    ) {
+        this.gsonBuilder = gsonBuilder;
+        this.dataFactory = dataFactory;
+        gsonBuilder.registerTypeAdapter(DataEntry.class, dataEntryTypeAdapter);
+        gsonBuilder.registerTypeAdapter(ErrorEntry.class, errorEntryTypeAdapter);
     }
 
     @Override
@@ -39,7 +49,7 @@ public class DataTypeAdapter extends TypeAdapter<Data> {
 
         log.info("read: method begins; reader: " + reader);
 
-        Data result = new Data ();
+        Data result = dataFactory.getInstance();
 
         Gson gson = gsonBuilder.create();
 

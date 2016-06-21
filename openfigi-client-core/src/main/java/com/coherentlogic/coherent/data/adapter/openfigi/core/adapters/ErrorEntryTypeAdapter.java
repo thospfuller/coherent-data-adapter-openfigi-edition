@@ -7,25 +7,28 @@ import org.slf4j.LoggerFactory;
 
 import com.coherentlogic.coherent.data.adapter.openfigi.core.domain.ErrorEntry;
 import com.coherentlogic.coherent.data.model.core.exceptions.MethodNotSupportedException;
-import com.google.gson.GsonBuilder;
+import com.coherentlogic.coherent.data.model.core.factories.TypedFactory;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
-import com.google.gson.TypeAdapter;
 import com.google.gson.stream.JsonReader;
 import com.google.gson.stream.JsonWriter;
 
-public class ErrorEntryTypeAdapter extends TypeAdapter<ErrorEntry> {
+public class ErrorEntryTypeAdapter extends AbstractEntryTypeAdapter<ErrorEntry> {
+
+	public static final String BEAN_NAME = "errorEntryTypeAdapter";
 
     private static final Logger log = LoggerFactory.getLogger(ErrorEntryTypeAdapter.class);
 
-    private final GsonBuilder gsonBuilder = new GsonBuilder();
+    public ErrorEntryTypeAdapter(TypedFactory<ErrorEntry> entryFactory) {
+        super(entryFactory);
+    }
 
     @Override
     public ErrorEntry read(JsonReader reader) throws IOException {
 
-        ErrorEntry result = new ErrorEntry ();
+        ErrorEntry result = getEntryFactory().getInstance();
 
-        JsonObject errorEntryObject = gsonBuilder.create().fromJson(reader, JsonObject.class);
+        JsonObject errorEntryObject = getGsonBuilder().create().fromJson(reader, JsonObject.class);
 
         JsonElement errorElement = errorEntryObject.get("error");
 

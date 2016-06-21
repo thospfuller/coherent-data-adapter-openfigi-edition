@@ -10,6 +10,7 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.context.annotation.ComponentScan;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
@@ -22,7 +23,7 @@ import com.coherentlogic.coherent.data.adapter.openfigi.core.domain.ErrorEntry;
  */
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(classes={GlobalConfiguration.class})
-@SpringBootApplication(scanBasePackages = {"com.coherentlogic.estimize.client"})
+@SpringBootApplication(scanBasePackages = {"com.coherentlogic.coherent.data.adapter.openfigi"})
 public class QueryBuilderTest {
 
     public static final String OPEN_FIGI_API_KEY = "OPEN_FIGI_API_KEY";

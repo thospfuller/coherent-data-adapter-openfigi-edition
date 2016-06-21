@@ -7,6 +7,7 @@ import org.slf4j.LoggerFactory;
 
 import com.coherentlogic.coherent.data.adapter.openfigi.core.domain.DataEntry;
 import com.coherentlogic.coherent.data.model.core.exceptions.MethodNotSupportedException;
+import com.coherentlogic.coherent.data.model.core.factories.TypedFactory;
 import com.google.gson.GsonBuilder;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
@@ -18,9 +19,8 @@ public class DataEntryTypeAdapter extends TypeAdapter<DataEntry> {
 
     private static final Logger log = LoggerFactory.getLogger(DataEntryTypeAdapter.class);
 
-    private final GsonBuilder gsonBuilder = new GsonBuilder();
-
-    public static final String FIGI = "figi",
+    public static final String BEAN_NAME = "dataEntryTypeAdapter",
+        FIGI = "figi",
         SECURITY_TYPE = "securityType",
         MARKET_SECTOR = "marketSector",
         TICKER = "ticker",
@@ -31,10 +31,24 @@ public class DataEntryTypeAdapter extends TypeAdapter<DataEntry> {
         COMPOSIT_FIGI = "compositeFIGI",
         UNIQUE_ID_FUT_OPT = "uniqueIDFutOpt";
 
+    private final GsonBuilder gsonBuilder;
+
+    private final TypedFactory<DataEntry> dataEntryFactory;
+
+    public DataEntryTypeAdapter(TypedFactory<DataEntry> dataEntryFactory) {
+        this (new GsonBuilder(), dataEntryFactory);
+    }
+
+    public DataEntryTypeAdapter(GsonBuilder gsonBuilder, TypedFactory<DataEntry> dataEntryFactory) {
+        super();
+        this.gsonBuilder = gsonBuilder;
+        this.dataEntryFactory = dataEntryFactory;
+    }
+
     @Override
     public DataEntry read(JsonReader reader) throws IOException {
 
-        DataEntry result = new DataEntry ();
+        DataEntry result = dataEntryFactory.getInstance();
 
         JsonObject dataEntryObject = gsonBuilder.create().fromJson(reader, JsonObject.class);
 
