@@ -67,10 +67,10 @@ public class QueryBuilder extends AbstractRESTQueryBuilder {
     }
 
     public QueryBuilder(
-    	RestTemplate restTemplate,
-    	String uri,
-    	RequestBody requestBody,
-    	ResponseExtractor<Data> dataExtractor
+        RestTemplate restTemplate,
+        String uri,
+        RequestBody requestBody,
+        ResponseExtractor<Data> dataExtractor
     ) {
         super(restTemplate, uri);
         this.requestBody = requestBody;
@@ -86,10 +86,10 @@ public class QueryBuilder extends AbstractRESTQueryBuilder {
     }
 
     public QueryBuilder(
-    	RestTemplate restTemplate,
-    	UriBuilder uriBuilder,
-    	RequestBody requestBody,
-    	ResponseExtractor<Data> dataExtractor
+        RestTemplate restTemplate,
+        UriBuilder uriBuilder,
+        RequestBody requestBody,
+        ResponseExtractor<Data> dataExtractor
     ) {
         super(restTemplate, uriBuilder);
         this.requestBody = requestBody;
@@ -249,6 +249,10 @@ public class QueryBuilder extends AbstractRESTQueryBuilder {
         );
 
         return result;
+    }
+
+    public Data doGet () {
+        return doGet (Data.class);
     }
 
 // DO NOT DELETE -- THIS WORKS AND NEEDS TO GO INTO THE doPost method.

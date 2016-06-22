@@ -55,7 +55,7 @@ public class QueryBuilderTest {
                     .withIdValue("851399")
                 .done()
             .done()
-        .doGet(Data.class);
+        .doGet();
 
         assertNotNull (data);
         assertEquals(1, data.getEntries().size());
@@ -76,7 +76,7 @@ public class QueryBuilderTest {
                     .withIdValue("851399")
                 .done()
             .done()
-        .doGet(Data.class);
+        .doGet();
 
         assertNotNull (data);
         assertEquals(2, data.getEntries().size());
@@ -101,7 +101,7 @@ public class QueryBuilderTest {
                     .withIdValue("INVALID")
                 .done()
             .done()
-        .doGet(Data.class);
+        .doGet();
 
         assertNotNull (data);
         assertEquals(3, data.getEntries().size());
@@ -122,7 +122,7 @@ public class QueryBuilderTest {
                     .withIdValue("851399XXX")
                 .done()
             .done()
-        .doGet(Data.class);
+        .doGet();
 
         List<ErrorEntry> errorEntries = (List<ErrorEntry>) data.getEntries().get(0);
 
