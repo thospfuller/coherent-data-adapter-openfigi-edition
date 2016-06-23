@@ -16,6 +16,27 @@ public class MappingEntry extends SerializableBean {
 
     private static final long serialVersionUID = -1786472253113680311L;
 
+    public static final String ID_ISIN = "ID_ISIN",
+        ID_BB_UNIQUE = "ID_BB_UNIQUE",
+        ID_SEDOL = "ID_SEDOL",
+        ID_COMMON = "ID_COMMON",
+        ID_WERTPAPIER = "ID_WERTPAPIER",
+        ID_CUSIP = "ID_CUSIP",
+        ID_BB = "ID_BB",
+        ID_ITALY = "ID_ITALY",
+        ID_EXCH_SYMBOL = "ID_EXCH_SYMBOL",
+        ID_FULL_EXCHANGE_SYMBOL = "ID_FULL_EXCHANGE_SYMBOL",
+        COMPOSITE_ID_BB_GLOBAL = "COMPOSITE_ID_BB_GLOBAL",
+        ID_BB_GLOBAL_SHARE_CLASS_LEVEL = "ID_BB_GLOBAL_SHARE_CLASS_LEVEL",
+        ID_BB_SEC_NUM_DES = "ID_BB_SEC_NUM_DES",
+        ID_BB_GLOBAL = "ID_BB_GLOBAL",
+        TICKER = "TICKER",
+        ID_CUSIP_8_CHR = "ID_CUSIP_8_CHR",
+        OCC_SYMBOL = "OCC_SYMBOL",
+        UNIQUE_ID_FUT_OPT = "UNIQUE_ID_FUT_OPT",
+        OPRA_SYMBOL = "OPRA_SYMBOL",
+        TRADING_SYSTEM_IDENTIFIER = "TRADING_SYSTEM_IDENTIFIER";
+
     /**
      * Type of third party identifier. See Supported Identifiers for all supported 3rd party identifier types.
      */
