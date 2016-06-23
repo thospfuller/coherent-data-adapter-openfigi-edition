@@ -2,6 +2,7 @@ package com.coherentlogic.coherent.data.adapter.openfigi.core.builders;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertTrue;
 
 import java.util.List;
 
@@ -16,7 +17,9 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import com.coherentlogic.coherent.data.adapter.openfigi.core.configuration.GlobalConfiguration;
 import com.coherentlogic.coherent.data.adapter.openfigi.core.configuration.XMLConfiguration;
 import com.coherentlogic.coherent.data.adapter.openfigi.core.domain.Data;
+import com.coherentlogic.coherent.data.adapter.openfigi.core.domain.DataEntry;
 import com.coherentlogic.coherent.data.adapter.openfigi.core.domain.ErrorEntry;
+import com.coherentlogic.coherent.data.model.core.domain.SerializableBean;
 
 /**
  * @author <a href="support@coherentlogic.com">Support</a>
@@ -44,12 +47,30 @@ public class QueryBuilderTest {
     }
 
     @Test
-    public void testGetWithValidRequest () {
+    public void testGetWithValidRequest1 () {
 
         Data data = queryBuilder
             .withApiKey(API_KEY)
             .getRequestBody()
-                .clear()
+                .withWertpapier("851399")
+            .done()
+        .doGet();
+
+        assertNotNull (data);
+        assertEquals(1, data.getEntries().size());
+
+        List<? extends SerializableBean> dataEntries = data.getEntries().get(0);
+
+        for (SerializableBean next : dataEntries)
+            assertTrue (next instanceof DataEntry);
+    }
+
+    @Test
+    public void testGetWithValidRequest2 () {
+
+        Data data = queryBuilder
+            .withApiKey(API_KEY)
+            .getRequestBody()
                 .newMappingEntry()
                     .withIdType("ID_WERTPAPIER")
                     .withIdValue("851399")
@@ -59,6 +80,11 @@ public class QueryBuilderTest {
 
         assertNotNull (data);
         assertEquals(1, data.getEntries().size());
+
+        List<? extends SerializableBean> dataEntries = data.getEntries().get(0);
+
+        for (SerializableBean next : dataEntries)
+            assertTrue (next instanceof DataEntry);
     }
 
     @Test
