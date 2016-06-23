@@ -36,7 +36,7 @@ public class DataExtractor implements ResponseExtractor<Data> {
 
         String json = IOUtils.toString(in);
 
-        log.info("json: " + json);
+        log.debug("json: " + json);
 
         Data result = gsonBuilder.create().fromJson(json, Data.class);
 
