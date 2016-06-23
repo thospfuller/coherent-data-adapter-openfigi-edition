@@ -1,6 +1,7 @@
 package com.coherentlogic.coherent.data.adapter.openfigi.core.builders;
 
 import java.io.IOException;
+import java.io.Serializable;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Map.Entry;
@@ -9,8 +10,6 @@ import javax.ws.rs.core.UriBuilder;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.ApplicationContext;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.MediaType;
@@ -21,22 +20,36 @@ import org.springframework.web.client.RestTemplate;
 
 import com.coherentlogic.coherent.data.adapter.openfigi.core.adapters.RequestBodyAdapter;
 import com.coherentlogic.coherent.data.adapter.openfigi.core.domain.Data;
-import com.coherentlogic.coherent.data.adapter.openfigi.core.domain.MappingEntry;
 import com.coherentlogic.coherent.data.adapter.openfigi.core.domain.RequestBody;
 import com.coherentlogic.coherent.data.model.core.adapters.InReturnAdapterSpecification;
 import com.coherentlogic.coherent.data.model.core.builders.rest.AbstractRESTQueryBuilder;
 import com.coherentlogic.coherent.data.model.core.cache.CacheServiceProviderSpecification;
 
 /**
- * 
- * OPEN_FIGI_API_KEY
+ * Builder for querying the OpenFIGI.com web services -- for example:
+ *
+ * <pre>
+ *     Data data = queryBuilder
+ *         .withApiKey(API_KEY)
+ *         .getRequestBody()
+ *             .newMappingEntry()
+ *                 .withIdType("ID_ISIN")
+ *                 .withIdValue("US4592001014")
+ *             .done()
+ *             .newMappingEntry()
+ *                 .withIdType("ID_WERTPAPIER")
+ *                 .withIdValue("851399")
+ *             .done()
+ *         .done()
+ *     .doGet();
+ * </pre>
  *
  * @see <a href="https://www.openfigi.com/api">The OpenFIGI API</a>
  *
  * @author <a href="support@coherentlogic.com">Support</a>
  *
  */
-public class QueryBuilder extends AbstractRESTQueryBuilder {
+public class QueryBuilder extends AbstractRESTQueryBuilder<RequestKey> {
 
     public static final String DEFAULT_URI = "https://api.openfigi.com/v1/mapping";
 
@@ -44,66 +57,24 @@ public class QueryBuilder extends AbstractRESTQueryBuilder {
 
     private final RequestBody requestBody;
 
-    private MappingEntry currentMappingEntry;
-
     private final Map<String, String> headers;
 
-    private final InReturnAdapterSpecification<RequestBody, String> requestBodyAdapter = new RequestBodyAdapter ();
+    private final InReturnAdapterSpecification<RequestBody, String> requestBodyAdapter;
 
     private final ResponseExtractor<Data> dataExtractor;
 
-    @Autowired
-    private ApplicationContext applicationContext;
-
     public QueryBuilder(RestTemplate restTemplate, ResponseExtractor<Data> dataExtractor) {
-        this(restTemplate, DEFAULT_URI, dataExtractor);
-    }
-
-    public QueryBuilder(RestTemplate restTemplate, String uri, ResponseExtractor<Data> dataExtractor) {
-        super(restTemplate, uri);
-        this.requestBody = new RequestBody (this);
-        headers = new HashMap<String, String> ();
-        this.dataExtractor = dataExtractor;
+        this(restTemplate, DEFAULT_URI, new RequestBodyAdapter (), dataExtractor);
     }
 
     public QueryBuilder(
         RestTemplate restTemplate,
         String uri,
-        RequestBody requestBody,
+        InReturnAdapterSpecification<RequestBody, String> requestBodyAdapter,
         ResponseExtractor<Data> dataExtractor
     ) {
         super(restTemplate, uri);
-        this.requestBody = requestBody;
-        headers = new HashMap<String, String> ();
-        this.dataExtractor = dataExtractor;
-    }
-
-    public QueryBuilder(RestTemplate restTemplate, UriBuilder uriBuilder, ResponseExtractor<Data> dataExtractor) {
-        super(restTemplate, uriBuilder);
-        this.requestBody = new RequestBody (this);
-        headers = new HashMap<String, String> ();
-        this.dataExtractor = dataExtractor;
-    }
-
-    public QueryBuilder(
-        RestTemplate restTemplate,
-        UriBuilder uriBuilder,
-        RequestBody requestBody,
-        ResponseExtractor<Data> dataExtractor
-    ) {
-        super(restTemplate, uriBuilder);
-        this.requestBody = requestBody;
-        headers = new HashMap<String, String> ();
-        this.dataExtractor = dataExtractor;
-    }
-
-    public QueryBuilder(
-        RestTemplate restTemplate,
-        String uri,
-        CacheServiceProviderSpecification<String, Object> cache,
-        ResponseExtractor<Data> dataExtractor
-    ) {
-        super(restTemplate, uri, cache);
+        this.requestBodyAdapter = requestBodyAdapter;
         this.requestBody = new RequestBody (this);
         headers = new HashMap<String, String> ();
         this.dataExtractor = dataExtractor;
@@ -112,11 +83,12 @@ public class QueryBuilder extends AbstractRESTQueryBuilder {
     public QueryBuilder(
         RestTemplate restTemplate,
         String uri,
-        CacheServiceProviderSpecification<String, Object> cache,
+        InReturnAdapterSpecification<RequestBody, String> requestBodyAdapter,
         RequestBody requestBody,
         ResponseExtractor<Data> dataExtractor
     ) {
-        super(restTemplate, uri, cache);
+        super(restTemplate, uri);
+        this.requestBodyAdapter = requestBodyAdapter;
         this.requestBody = requestBody;
         headers = new HashMap<String, String> ();
         this.dataExtractor = dataExtractor;
@@ -125,10 +97,11 @@ public class QueryBuilder extends AbstractRESTQueryBuilder {
     public QueryBuilder(
         RestTemplate restTemplate,
         UriBuilder uriBuilder,
-        CacheServiceProviderSpecification<String, Object> cache,
+        InReturnAdapterSpecification<RequestBody, String> requestBodyAdapter,
         ResponseExtractor<Data> dataExtractor
     ) {
-        super(restTemplate, uriBuilder, cache);
+        super(restTemplate, uriBuilder);
+        this.requestBodyAdapter = requestBodyAdapter;
         this.requestBody = new RequestBody (this);
         headers = new HashMap<String, String> ();
         this.dataExtractor = dataExtractor;
@@ -137,11 +110,70 @@ public class QueryBuilder extends AbstractRESTQueryBuilder {
     public QueryBuilder(
         RestTemplate restTemplate,
         UriBuilder uriBuilder,
-        CacheServiceProviderSpecification<String, Object> cache,
+        InReturnAdapterSpecification<RequestBody, String> requestBodyAdapter,
+        RequestBody requestBody,
+        ResponseExtractor<Data> dataExtractor
+    ) {
+        super(restTemplate, uriBuilder);
+        this.requestBodyAdapter = requestBodyAdapter;
+        this.requestBody = requestBody;
+        headers = new HashMap<String, String> ();
+        this.dataExtractor = dataExtractor;
+    }
+
+    public QueryBuilder(
+        RestTemplate restTemplate,
+        String uri,
+        CacheServiceProviderSpecification<RequestKey, Object> cache,
+        InReturnAdapterSpecification<RequestBody, String> requestBodyAdapter,
+        ResponseExtractor<Data> dataExtractor
+    ) {
+        super(restTemplate, uri, cache);
+        this.requestBodyAdapter = requestBodyAdapter;
+        this.requestBody = new RequestBody (this);
+        headers = new HashMap<String, String> ();
+        this.dataExtractor = dataExtractor;
+    }
+
+    public QueryBuilder(
+        RestTemplate restTemplate,
+        String uri,
+        CacheServiceProviderSpecification<RequestKey, Object> cache,
+        InReturnAdapterSpecification<RequestBody, String> requestBodyAdapter,
+        RequestBody requestBody,
+        ResponseExtractor<Data> dataExtractor
+    ) {
+        super(restTemplate, uri, cache);
+        this.requestBodyAdapter = requestBodyAdapter;
+        this.requestBody = requestBody;
+        headers = new HashMap<String, String> ();
+        this.dataExtractor = dataExtractor;
+    }
+
+    public QueryBuilder(
+        RestTemplate restTemplate,
+        UriBuilder uriBuilder,
+        CacheServiceProviderSpecification<RequestKey, Object> cache,
+        InReturnAdapterSpecification<RequestBody, String> requestBodyAdapter,
+        ResponseExtractor<Data> dataExtractor
+    ) {
+        super(restTemplate, uriBuilder, cache);
+        this.requestBodyAdapter = requestBodyAdapter;
+        this.requestBody = new RequestBody (this);
+        headers = new HashMap<String, String> ();
+        this.dataExtractor = dataExtractor;
+    }
+
+    public QueryBuilder(
+        RestTemplate restTemplate,
+        UriBuilder uriBuilder,
+        CacheServiceProviderSpecification<RequestKey, Object> cache,
+        InReturnAdapterSpecification<RequestBody, String> requestBodyAdapter,
         RequestBody requestBody,
         ResponseExtractor<Data> dataExtractor
     ) {
         super(restTemplate, uriBuilder, cache);
+        this.requestBodyAdapter = requestBodyAdapter;
         this.requestBody = requestBody;
         headers = new HashMap<String, String> ();
         this.dataExtractor = dataExtractor;
@@ -162,91 +194,47 @@ public class QueryBuilder extends AbstractRESTQueryBuilder {
         return this;
     }
 
-//    /**
-//     * Method constructs the URI and first checks to see if the object currently
-//     * exists in the cache -- if it does, then this object is returned, other-
-//     * -wise the URI is called and the resultant XML is converted into an
-//     * instance of type <i>type</i> and the result is returned to the user. 
-//     */
-//    public <T> T doPost(Class<T> type, RequestBody requestBody) {
-//
-//        String escapedURI = getEscapedURI();
-//
-//        T result = null;
-//
-//        CacheServiceProviderSpecification<String, Object> cache = getCache();
-//
-//        Object object = cache.get(escapedURI);
-//
-//        if (object != null && type.isInstance(object))
-//            result = (T) object;
-//        else if (object != null && !type.isInstance(object))
-//            throw new ClassCastException (
-//                "The object " + object +
-//                " cannot be cast to type " + type + ".");
-//        else if (object == null) {
-//            result = (T) getRestTemplate().execute(
-//                escapedURI,
-//                HttpMethod.POST,
-//                new RequestCallback() {
-//
-//                    @Override
-//                    public void doWithRequest(ClientHttpRequest request) throws IOException {
-//                        request.getHeaders().add("X-OPENFIGI-APIKEY", "16597a6c-3abb-4627-b91c-c808666b790c");
-//                        request.getHeaders().add("Content-Type", "application/json");
-//
-//                        for (String header : headers.keySet()) {
-//                            request.getHeaders().add(header, headers.get(header));
-//                        }
-//
-//                        String requestBodyJson = requestBodyAdapter.adapt(getRequestBody());
-//
-//                        log.info("requestBodyJson: " + requestBodyJson);
-//
-//                        // "[{\"idType\":\"ID_WERTPAPIER\",\"idValue\":\"851399\"}]"
-//                        
-//                        request.getBody().write(requestBodyJson.getBytes());
-//                    }
-//                },
-//                applicationContext.getBean(DataExtractor.class)
-//            );//postForObject(escapedURI, requestBody, type););//exchange(escapedURI, HttpMethod.POST, entity, type);//postForObject(escapedURI, requestBody, type);
-//            cache.put(escapedURI, result);
-//        }
-//        return result;
-//    }
-
     @Override
+	protected RequestKey getKey() {
+		return new RequestKey (headers, requestBody);
+	}
+
+	@Override
     protected <T> T doExecute(Class<T> type) {
 
-        T result = (T) getRestTemplate().execute(
-            getEscapedURI(),
-            HttpMethod.POST,
-            new RequestCallback() {
+        T result = (T) getCache().get(getKey ());
 
-                @Override
-                public void doWithRequest(ClientHttpRequest request) throws IOException {
+        if (result == null) {
+            result = (T) getRestTemplate().execute(
+                getEscapedURI(),
+                HttpMethod.POST,
+                new RequestCallback() {
 
-                    HttpHeaders headers = request.getHeaders();
+                    @Override
+                    public void doWithRequest(ClientHttpRequest request) throws IOException {
 
-                    headers.setContentType(MediaType.APPLICATION_JSON);
+                        HttpHeaders headers = request.getHeaders();
 
-                    for (Entry<String, String> nextEntry : getHeaders ().entrySet()) {
+                        headers.setContentType(MediaType.APPLICATION_JSON);
 
-                        String key = nextEntry.getKey();
-                        String value = nextEntry.getValue();
+                        for (Entry<String, String> nextEntry : getHeaders ().entrySet()) {
 
-                        headers.add(key, value);
+                            String key = nextEntry.getKey();
+                            String value = nextEntry.getValue();
+
+                            headers.add(key, value);
+                        }
+
+                        String requestBodyJson = requestBodyAdapter.adapt(getRequestBody());
+
+                        log.debug("requestBodyJson: " + requestBodyJson);
+
+                        request.getBody().write(requestBodyJson.getBytes());
                     }
-
-                    String requestBodyJson = requestBodyAdapter.adapt(getRequestBody());
-
-                    log.info("requestBodyJson: " + requestBodyJson);
-
-                    request.getBody().write(requestBodyJson.getBytes());
-                }
-            },
-            dataExtractor
-        );
+                },
+                dataExtractor
+            );
+        }
 
         return result;
     }
@@ -254,11 +242,62 @@ public class QueryBuilder extends AbstractRESTQueryBuilder {
     public Data doGet () {
         return doGet (Data.class);
     }
+}
 
-// DO NOT DELETE -- THIS WORKS AND NEEDS TO GO INTO THE doPost method.
-//    HttpEntity<RequestBody> entity = new HttpEntity<RequestBody> (new RequestBody (this));
-//
-//    entity.getHeaders().set(headerName, headerValue);
-//
-//    getRestTemplate().exchange(getEscapedURI(), HttpMethod.POST, entity, Data.class);
+class RequestKey implements Serializable {
+
+    private static final long serialVersionUID = 3061141466398240807L;
+
+    private final Map<String, String> headers;
+
+    private final RequestBody requestBody;
+
+    public RequestKey(Map<String, String> headers, RequestBody requestBody) {
+        this.headers = headers;
+        this.requestBody = requestBody;
+    }
+
+    public Map<String, String> getHeaders() {
+        return headers;
+    }
+
+    public RequestBody getRequestBody() {
+        return requestBody;
+    }
+
+    @Override
+    public int hashCode() {
+        final int prime = 31;
+        int result = 1;
+        result = prime * result + ((headers == null) ? 0 : headers.hashCode());
+        result = prime * result + ((requestBody == null) ? 0 : requestBody.hashCode());
+        return result;
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj)
+            return true;
+        if (obj == null)
+            return false;
+        if (getClass() != obj.getClass())
+            return false;
+        RequestKey other = (RequestKey) obj;
+        if (headers == null) {
+            if (other.headers != null)
+                return false;
+        } else if (!headers.equals(other.headers))
+            return false;
+        if (requestBody == null) {
+            if (other.requestBody != null)
+                return false;
+        } else if (!requestBody.equals(other.requestBody))
+            return false;
+        return true;
+    }
+
+    @Override
+    public String toString() {
+        return "Request [headers=" + headers + ", requestBody=" + requestBody + "]";
+    }
 }
