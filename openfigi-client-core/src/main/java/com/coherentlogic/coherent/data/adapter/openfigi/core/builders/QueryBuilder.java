@@ -27,21 +27,30 @@ import com.coherentlogic.coherent.data.model.core.cache.CacheServiceProviderSpec
 
 /**
  * Builder for querying the OpenFIGI.com web services -- for example:
- *
  * <pre>
- *     Data data = queryBuilder
- *         .withApiKey(API_KEY)
- *         .getRequestBody()
- *             .newMappingEntry()
- *                 .withIdType("ID_ISIN")
- *                 .withIdValue("US4592001014")
- *             .done()
- *             .newMappingEntry()
- *                 .withIdType("ID_WERTPAPIER")
- *                 .withIdValue("851399")
- *             .done()
+ * Data data = queryBuilder
+ *     .withApiKey(API_KEY)
+ *     .getRequestBody()
+ *         .withIsin("US4592001014")
+ *         .withWertpapier("851399")
+ *     .done()
+ * .doGet();
+ * </pre>
+ * Below is an equivalent example to the one above, but with the IdType and IdValue set directly on the mapping entry:
+ * <pre>
+ * Data data = queryBuilder
+ *     .withApiKey(API_KEY)
+ *     .getRequestBody()
+ *         .newMappingEntry()
+ *             .withIdType("ID_ISIN")
+ *             .withIdValue("US4592001014")
  *         .done()
- *     .doGet();
+ *         .newMappingEntry()
+ *             .withIdType("ID_WERTPAPIER")
+ *             .withIdValue("851399")
+ *         .done()
+ *     .done()
+ * .doGet();
  * </pre>
  *
  * @see <a href="https://www.openfigi.com/api">The OpenFIGI API</a>
@@ -51,7 +60,8 @@ import com.coherentlogic.coherent.data.model.core.cache.CacheServiceProviderSpec
  */
 public class QueryBuilder extends AbstractRESTQueryBuilder<RequestKey> {
 
-    public static final String DEFAULT_URI = "https://api.openfigi.com/v1/mapping";
+    public static final String DEFAULT_URI = "https://api.openfigi.com/v1/mapping",
+        X_OPENFIGI_APIKEY = "X-OPENFIGI-APIKEY";
 
     private static final Logger log = LoggerFactory.getLogger(QueryBuilder.class);
 
@@ -189,7 +199,7 @@ public class QueryBuilder extends AbstractRESTQueryBuilder<RequestKey> {
 
     public QueryBuilder withApiKey (String apiKey) {
 
-        headers.put("X-OPENFIGI-APIKEY", apiKey);
+        headers.put(X_OPENFIGI_APIKEY, apiKey);
 
         return this;
     }
@@ -227,7 +237,7 @@ public class QueryBuilder extends AbstractRESTQueryBuilder<RequestKey> {
 
                         String requestBodyJson = requestBodyAdapter.adapt(getRequestBody());
 
-                        log.debug("requestBodyJson: " + requestBodyJson);
+                        log.debug("headers: " + headers + ", requestBodyJson: " + requestBodyJson);
 
                         request.getBody().write(requestBodyJson.getBytes());
                     }
