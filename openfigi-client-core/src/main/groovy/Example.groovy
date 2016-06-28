@@ -1,5 +1,5 @@
 @Grab(group='log4j', module='log4j', version='1.2.17')
-@Grab(group='com.coherentlogic.coherent.data.adapter.openfigi', module='openfigi-client-core', version='0.8.5-RELEASE')
+@Grab(group='com.coherentlogic.coherent.data.adapter.openfigi.client', module='openfigi-client-core', version='0.8.6-RELEASE')
 
 // ********************************************************************************
 // *** NOTE: There's something wrong with how Jettison is being resolved by     ***
