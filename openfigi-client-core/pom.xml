@@ -7,10 +7,10 @@
     <parent>
         <groupId>com.coherentlogic.coherent.data.adapter.openfigi</groupId>
         <artifactId>client</artifactId>
-        <version>0.8.5-RELEASE</version>
+        <version>0.8.6-RELEASE</version>
     </parent>
 
-    <groupId>com.coherentlogic.coherent.data.adapter.openfigi</groupId>
+    <groupId>com.coherentlogic.coherent.data.adapter.openfigi.client</groupId>
     <artifactId>openfigi-client-core</artifactId>
     <packaging>jar</packaging>
 
