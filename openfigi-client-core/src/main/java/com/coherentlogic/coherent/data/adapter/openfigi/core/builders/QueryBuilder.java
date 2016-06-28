@@ -24,6 +24,7 @@ import com.coherentlogic.coherent.data.adapter.openfigi.core.domain.RequestBody;
 import com.coherentlogic.coherent.data.model.core.adapters.InReturnAdapterSpecification;
 import com.coherentlogic.coherent.data.model.core.builders.rest.AbstractRESTQueryBuilder;
 import com.coherentlogic.coherent.data.model.core.cache.CacheServiceProviderSpecification;
+import com.coherentlogic.coherent.data.model.core.util.WelcomeMessage;
 
 /**
  * Builder for querying the OpenFIGI.com web services -- for example:
@@ -72,6 +73,31 @@ public class QueryBuilder extends AbstractRESTQueryBuilder<RequestKey> {
     private final InReturnAdapterSpecification<RequestBody, String> requestBodyAdapter;
 
     private final ResponseExtractor<Data> dataExtractor;
+
+    static {
+        new WelcomeMessage ()
+            .addText("***********************************************************")
+            .addText("***   Welcome  to the Coherent Data Adapter: OpenFIGI   ***")
+            .addText("***        Client Edition version 0.8.5-RELEASE.        ***")
+            .addText("***                                                     ***")
+            .addText("***    Please take a moment to follow us on Twitter:    ***")
+            .addText("***                                                     ***")
+            .addText("***           www.twitter.com/CoherentMktData           ***")
+            .addText("***                                                     ***")
+            .addText("***                 or on LinkedIn:                     ***")
+            .addText("***                                                     ***")
+            .addText("***   www.linkedin.com/company/coherent-logic-limited   ***")
+            .addText("***                                                     ***")
+            .addText("*** We   offer   support  and  consulting  services  to ***")
+            .addText("*** businesses that utilize this framework or that need ***")
+            .addText("*** help  with  bespoke  data  acquisition  projects -- ***")
+            .addText("*** inquiries can be directed to:                       ***")
+            .addText("***                                                     ***")
+            .addText("*** [E] sales@coherentlogic.com                         ***")
+            .addText("***                                                     ***")
+            .addText("***********************************************************")
+        .display();
+    }
 
     public QueryBuilder(RestTemplate restTemplate, ResponseExtractor<Data> dataExtractor) {
         this(restTemplate, DEFAULT_URI, new RequestBodyAdapter (), dataExtractor);
@@ -205,11 +231,11 @@ public class QueryBuilder extends AbstractRESTQueryBuilder<RequestKey> {
     }
 
     @Override
-	protected RequestKey getKey() {
-		return new RequestKey (headers, requestBody);
-	}
+    protected RequestKey getKey() {
+        return new RequestKey (headers, requestBody);
+    }
 
-	@Override
+    @Override
     protected <T> T doExecute(Class<T> type) {
 
         T result = (T) getCache().get(getKey ());
