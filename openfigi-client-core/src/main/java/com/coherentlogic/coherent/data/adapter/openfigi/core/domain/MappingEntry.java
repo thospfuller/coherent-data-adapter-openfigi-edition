@@ -5,8 +5,8 @@ import static com.coherentlogic.coherent.data.model.core.util.Utils.assertNotNul
 import javax.persistence.Transient;
 
 import com.coherentlogic.coherent.data.adapter.openfigi.core.exceptions.InvalidMappingEntryConfigurationException;
+import com.coherentlogic.coherent.data.model.core.annotations.Changeable;
 import com.coherentlogic.coherent.data.model.core.domain.SerializableBean;
-import com.coherentlogic.coherent.data.model.annotations.Changeable;
 
 /**
  * 
