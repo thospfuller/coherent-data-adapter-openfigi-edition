@@ -23,7 +23,7 @@ public class RequestBodyAdapter implements InReturnAdapterSpecification<RequestB
     @Override
     public String adapt(RequestBody source) {
 
-        Gson gson = gsonBuilder.create();
+        Gson gson = gsonBuilder.excludeFieldsWithoutExposeAnnotation().create();
 
         String result = gson.toJson(source.getMappingEntries());
 
