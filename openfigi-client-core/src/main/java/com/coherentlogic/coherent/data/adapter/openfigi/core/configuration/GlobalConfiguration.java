@@ -45,7 +45,7 @@ public class GlobalConfiguration {
     public static final String OPEN_FIGI_XSTREAM_MARSHALLER = "openFIGIXStreamMarshaller",
         OPEN_FIGI_REST_TEMPLATE = "openFIGIRestTemplate",
         OPEN_FIGI_QUERY_BUILDER = "openFIGIQueryBuilder",
-        GSON_BUILDER = "gsonBuilder";
+        GSON_BUILDER = "gsonBuilder", VERSION = "version";
 
     @Bean(name=OPEN_FIGI_REST_TEMPLATE)
     public RestTemplate getRestTemplate (@Qualifier(OPEN_FIGI_XSTREAM_MARSHALLER) XStreamMarshaller xStreamMarshaller) {
@@ -78,6 +78,12 @@ public class GlobalConfiguration {
             MappingEntry.class,
             RequestBody.class
         );
+
+        result.getXStream().autodetectAnnotations(true);
+
+        result.getXStream().omitField(Data.class, VERSION);
+        result.getXStream().omitField(MappingEntry.class, VERSION);
+        result.getXStream().omitField(RequestBody.class, VERSION);
 
         return result;
     }
