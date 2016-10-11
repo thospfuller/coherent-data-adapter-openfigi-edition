@@ -10,7 +10,6 @@ import org.junit.After;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
@@ -26,7 +25,7 @@ import com.coherentlogic.coherent.data.model.core.domain.SerializableBean;
  */
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(classes={GlobalConfiguration.class, XMLConfiguration.class})
-@SpringBootApplication(scanBasePackages = {"com.coherentlogic.coherent.data.adapter.openfigi"})
+//@SpringBootApplication(scanBasePackages = {"com.coherentlogic.coherent.data.adapter.openfigi"})
 public class QueryBuilderTest {
 
     public static final String OPEN_FIGI_API_KEY = "OPEN_FIGI_API_KEY";
@@ -61,8 +60,9 @@ public class QueryBuilderTest {
 
         List<? extends SerializableBean> dataEntries = data.getEntries().get(0);
 
-        for (SerializableBean next : dataEntries)
+        for (SerializableBean next : dataEntries) {
             assertTrue (next instanceof DataEntry);
+        }
     }
 
     @Test
