@@ -7,7 +7,7 @@
     <parent>
         <groupId>com.coherentlogic.coherent.data.adapter.openfigi</groupId>
         <artifactId>client</artifactId>
-        <version>0.8.6-RELEASE</version>
+        <version>0.9.0-RELEASE</version>
     </parent>
 
     <groupId>com.coherentlogic.coherent.data.adapter.openfigi.client</groupId>
@@ -24,7 +24,7 @@
     <dependencies>
         <dependency>
             <groupId>com.coherentlogic.coherent.data-model</groupId>
-            <artifactId>data-model-core</artifactId>
+            <artifactId>data-adapter-core</artifactId>
         </dependency>
         <dependency>
             <groupId>org.springframework</groupId>
