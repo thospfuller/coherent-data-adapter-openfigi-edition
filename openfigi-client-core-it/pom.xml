@@ -8,7 +8,7 @@
     <parent>
         <groupId>com.coherentlogic.coherent.data.adapter.openfigi</groupId>
         <artifactId>client</artifactId>
-        <version>0.8.6-RELEASE</version>
+        <version>0.9.0-RELEASE</version>
     </parent>
 
     <groupId>com.coherentlogic.coherent.data.adapter.openfigi.client</groupId>
@@ -19,13 +19,14 @@
 
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-        <spring.boot.version>1.3.5.RELEASE</spring.boot.version>
+        <spring.boot.version>1.4.0.RELEASE</spring.boot.version>
     </properties>
 
     <dependencies>
         <dependency>
-            <groupId>com.coherentlogic.coherent.data.adapter.openfigi</groupId>
+            <groupId>com.coherentlogic.coherent.data.adapter.openfigi.client</groupId>
             <artifactId>openfigi-client-core</artifactId>
+            <version>${project.parent.version}</version>
         </dependency>
         <dependency>
             <groupId>org.springframework</groupId>
@@ -77,6 +78,15 @@
             <artifactId>spring-boot-starter-test</artifactId>
             <version>${spring.boot.version}</version>
             <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>com.h2database</groupId>
+            <artifactId>h2</artifactId>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.slf4j</groupId>
+            <artifactId>slf4j-api</artifactId>
         </dependency>
         <dependency>
             <groupId>junit</groupId>
