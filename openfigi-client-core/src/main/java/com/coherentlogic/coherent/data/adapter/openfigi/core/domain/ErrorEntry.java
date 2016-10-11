@@ -11,7 +11,7 @@ import com.coherentlogic.coherent.data.model.core.domain.SerializableBean;
  */
 @Entity
 @Table(name=ErrorEntry.OPEN_FIGI_ERROR_ENTRY)
-public class ErrorEntry extends SerializableBean {
+public class ErrorEntry extends SerializableBean<ErrorEntry> {
 
     private static final long serialVersionUID = 1743297826917452185L;
 

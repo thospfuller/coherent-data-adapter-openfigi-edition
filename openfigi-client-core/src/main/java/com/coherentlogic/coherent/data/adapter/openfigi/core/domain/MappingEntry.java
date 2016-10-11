@@ -7,12 +7,13 @@ import javax.persistence.Transient;
 import com.coherentlogic.coherent.data.adapter.openfigi.core.exceptions.InvalidMappingEntryConfigurationException;
 import com.coherentlogic.coherent.data.model.core.annotations.Changeable;
 import com.coherentlogic.coherent.data.model.core.domain.SerializableBean;
+import com.google.gson.annotations.Expose;
 
 /**
  * 
  * @author <a href="support@coherentlogic.com">Support</a>
  */
-public class MappingEntry extends SerializableBean {
+public class MappingEntry extends SerializableBean<MappingEntry> {
 
     private static final long serialVersionUID = -1786472253113680311L;
 
@@ -40,31 +41,37 @@ public class MappingEntry extends SerializableBean {
     /**
      * Type of third party identifier. See Supported Identifiers for all supported 3rd party identifier types.
      */
+    @Expose
     private String idType = null;
 
     /**
      * The value for the represented third party identifier.
      */
+    @Expose
     private String idValue = null;
 
     /**
      * An optional exchange code if it applies(cannot use with micCode).
      */
+    @Expose
     private String exchangeCode = null;
 
     /**
      * An optional ISO market identification code(MIC) if it applies(cannot use with exchCode).
      */
+    @Expose
     private String marketIdentificationCode= null;
 
     /**
      * An optional currency if it applies.
      */
+    @Expose
     private String currency = null;
 
     /**
      * An optional market sector description if it applies.
      */
+    @Expose
     private String marketSectorDescription = null;
 
     @Transient

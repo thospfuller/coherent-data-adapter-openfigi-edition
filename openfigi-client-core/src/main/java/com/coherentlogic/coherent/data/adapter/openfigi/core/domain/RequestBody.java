@@ -11,7 +11,7 @@ import com.coherentlogic.coherent.data.model.core.util.Utils;
 /**
  * @author <a href="support@coherentlogic.com">Support</a>
  */
-public class RequestBody extends SerializableBean {
+public class RequestBody extends SerializableBean<RequestBody> {
 
     private static final long serialVersionUID = 1177536240623915122L;
 

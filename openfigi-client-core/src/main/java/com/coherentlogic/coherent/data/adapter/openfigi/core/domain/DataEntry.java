@@ -7,7 +7,7 @@ import com.coherentlogic.coherent.data.model.core.domain.SerializableBean;
 
 @Entity
 @Table(name=DataEntry.OPEN_FIGI_DATA_ENTRY)
-public class DataEntry extends SerializableBean {
+public class DataEntry extends SerializableBean<DataEntry> {
 
     private static final long serialVersionUID = 6929758074820720468L;
 
