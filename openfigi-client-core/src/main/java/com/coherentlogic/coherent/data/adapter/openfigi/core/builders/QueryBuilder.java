@@ -21,6 +21,7 @@ import org.springframework.web.client.RestTemplate;
 import com.coherentlogic.coherent.data.adapter.openfigi.core.adapters.RequestBodyAdapter;
 import com.coherentlogic.coherent.data.adapter.openfigi.core.domain.Data;
 import com.coherentlogic.coherent.data.adapter.openfigi.core.domain.RequestBody;
+import com.coherentlogic.coherent.data.adapter.openfigi.core.services.GoogleAnalyticsMeasurementService;
 import com.coherentlogic.coherent.data.model.core.adapters.InReturnAdapterSpecification;
 import com.coherentlogic.coherent.data.model.core.builders.rest.AbstractRESTQueryBuilder;
 import com.coherentlogic.coherent.data.model.core.cache.CacheServiceProviderSpecification;
@@ -74,30 +75,73 @@ public class QueryBuilder extends AbstractRESTQueryBuilder<RequestKey> {
 
     private final ResponseExtractor<Data> dataExtractor;
 
+    static final String[] WELCOME_MESSAGE = {
+        "*************************************************************************************************************",
+        "***                                                                                                       ***",
+        "***                     Welcome to the Coherent Data Adapter: OpenFIGI Client Edition                     ***",
+        "***                                                                                                       ***",
+        "***                                         Version 0.9.0-RELEASE                                         ***",
+        "***                                                                                                       ***",
+        "***                              Please take a moment to follow us on Twitter:                            ***",
+        "***                                                                                                       ***",
+        "***                                    www.twitter.com/CoherentMktData                                    ***",
+        "***                                                                                                       ***",
+        "***                                          or on LinkedIn:                                              ***",
+        "***                                                                                                       ***",
+        "***                            www.linkedin.com/company/coherent-logic-limited                            ***",
+        "***                                                                                                       ***",
+        "***                            The project and issue tracker can be found here:                           ***",
+        "***                                                                                                       ***",
+        "***                     https://bitbucket.org/CoherentLogic/coherent-logic-fred-client                    ***",
+        "***                                                                                                       ***",
+        "*** ----------------------------------------------------------------------------------------------------- ***",
+        "***                                                                                                       ***",
+        "*** BE ADVISED:                                                                                           ***",
+        "***                                                                                                       ***",
+        "*** This framework uses the Google Analytics Measurement API (GAM) to track framework usage  information. ***",
+        "*** As this software is open-source, you are welcomed to review our use of GAM -- please  see  the  class ***",
+        "*** named com.coherentlogic.coherent.data.adapter.openfigi.core.services.GoogleAnalyticsMeasurementService***",
+        "*** and feel free to send us an email if you have further questions.                                      ***",
+        "***                                                                                                       ***",
+        "*** We do NOT recommend disabling this feature however we offer the option below, just add the following  ***",
+        "*** VM parameter and tracking will be disabled:                                                           ***",
+        "***                                                                                                       ***",
+        "*** -DGOOGLE_ANALYTICS_TRACKING=false                                                                     ***",
+        "***                                                                                                       ***",
+        "*** ----------------------------------------------------------------------------------------------------- ***",
+        "***                                                                                                       ***",
+        "*** We offer support and consulting services to businesses that  utilize  this  framework  or  that  have ***",
+        "*** custom data acquisition projects -- inquiries can be directed to:                                     ***",
+        "***                                                                                                       ***",
+        "*** [M] sales@coherentlogic.com                                                                           ***",
+        "*** [T] +1.571.306.3403 (GMT-5)                                                                           ***",
+        "***                                                                                                       ***",
+        "*************************************************************************************************************"
+    };
+
+    /**
+     * Todo: Move this message so that it appears in the AbstractQueryBuilder.
+     */
     static {
-        new WelcomeMessage ()
-            .addText("***********************************************************")
-            .addText("***                                                     ***")
-            .addText("***   Welcome  to the Coherent Data Adapter: OpenFIGI   ***")
-            .addText("***        Client Edition version 0.9.0-RELEASE.        ***")
-            .addText("***                                                     ***")
-            .addText("***    Please take a moment to follow us on Twitter:    ***")
-            .addText("***                                                     ***")
-            .addText("***           www.twitter.com/CoherentMktData           ***")
-            .addText("***                                                     ***")
-            .addText("***                 or on LinkedIn:                     ***")
-            .addText("***                                                     ***")
-            .addText("***   www.linkedin.com/company/coherent-logic-limited   ***")
-            .addText("***                                                     ***")
-            .addText("*** We   offer   support  and  consulting  services  to ***")
-            .addText("*** businesses that utilize this framework or that need ***")
-            .addText("*** help  with  bespoke  data  acquisition  projects -- ***")
-            .addText("*** inquiries can be directed to:                       ***")
-            .addText("***                                                     ***")
-            .addText("*** [E] sales@coherentlogic.com                         ***")
-            .addText("***                                                     ***")
-            .addText("***********************************************************")
-        .display();
+
+        GoogleAnalyticsMeasurementService googleAnalyticsMeasurementService = new GoogleAnalyticsMeasurementService ();
+
+        if (googleAnalyticsMeasurementService.shouldTrack()) {
+            try {
+                googleAnalyticsMeasurementService.fireGAFrameworkUsageEvent ();
+            } catch (Throwable thrown) {
+                log.warn("fireGAFrameworkUsageEvent: method call failed. This exception can be ignored, and the "
+                    + "framework will function without issue.", thrown);
+            }
+        }
+
+        WelcomeMessage welcomeMessage = new WelcomeMessage();
+
+        for (String next : WELCOME_MESSAGE) {
+            welcomeMessage.addText(next);
+        }
+
+        welcomeMessage.display();
     }
 
     public QueryBuilder(RestTemplate restTemplate, ResponseExtractor<Data> dataExtractor) {
