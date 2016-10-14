@@ -79,7 +79,7 @@ public class QueryBuilder extends AbstractRESTQueryBuilder<RequestKey> {
             .addText("***********************************************************")
             .addText("***                                                     ***")
             .addText("***   Welcome  to the Coherent Data Adapter: OpenFIGI   ***")
-            .addText("***        Client Edition version 0.8.5-RELEASE.        ***")
+            .addText("***        Client Edition version 0.9.0-RELEASE.        ***")
             .addText("***                                                     ***")
             .addText("***    Please take a moment to follow us on Twitter:    ***")
             .addText("***                                                     ***")
