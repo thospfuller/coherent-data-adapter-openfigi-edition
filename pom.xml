@@ -23,7 +23,7 @@
     <url>https://coherentlogic.com/middleware-development/coherent-data-adapter-openfigi-edition/</url>
     <properties>
         <java.version>1.8</java.version>
-        <data.model.version>1.0.24-RELEASE</data.model.version>
+        <data.model.version>1.0.25-RELEASE</data.model.version>
     </properties>
     <licenses>
         <license>
@@ -87,7 +87,7 @@
     <modules>
         <!-- module>openfigi-client-assembly</module -->
         <module>openfigi-client-core</module>
-        <module>openfigi-client-core-it</module>
+        <!-- module>openfigi-client-core-it</module -->
         <module>openfigi-client-db-int</module>
         <module>openfigi-client-example</module>
     </modules>
