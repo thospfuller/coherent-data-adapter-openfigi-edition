@@ -4,7 +4,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationContext;
 
 import com.coherentlogic.coherent.data.adapter.openfigi.core.domain.DataEntry;
-import com.coherentlogic.coherent.data.model.core.factories.TypedFactory;
+import com.coherentlogic.coherent.data.adapter.core.factories.TypedFactory;
 
 /**
  *

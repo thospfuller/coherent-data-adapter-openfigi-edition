@@ -22,10 +22,10 @@ import com.coherentlogic.coherent.data.adapter.openfigi.core.adapters.RequestBod
 import com.coherentlogic.coherent.data.adapter.openfigi.core.domain.Data;
 import com.coherentlogic.coherent.data.adapter.openfigi.core.domain.RequestBody;
 import com.coherentlogic.coherent.data.adapter.openfigi.core.services.GoogleAnalyticsMeasurementService;
-import com.coherentlogic.coherent.data.model.core.adapters.InReturnAdapterSpecification;
-import com.coherentlogic.coherent.data.model.core.builders.rest.AbstractRESTQueryBuilder;
-import com.coherentlogic.coherent.data.model.core.cache.CacheServiceProviderSpecification;
-import com.coherentlogic.coherent.data.model.core.util.WelcomeMessage;
+import com.coherentlogic.coherent.data.adapter.core.adapters.InReturnAdapterSpecification;
+import com.coherentlogic.coherent.data.adapter.core.builders.rest.AbstractRESTQueryBuilder;
+import com.coherentlogic.coherent.data.adapter.core.cache.CacheServiceProviderSpecification;
+import com.coherentlogic.coherent.data.adapter.core.util.WelcomeMessage;
 
 /**
  * Builder for querying the OpenFIGI.com web services -- for example:

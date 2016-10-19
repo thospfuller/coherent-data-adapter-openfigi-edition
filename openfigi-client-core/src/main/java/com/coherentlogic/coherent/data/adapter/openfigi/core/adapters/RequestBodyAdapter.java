@@ -1,7 +1,7 @@
 package com.coherentlogic.coherent.data.adapter.openfigi.core.adapters;
 
 import com.coherentlogic.coherent.data.adapter.openfigi.core.domain.RequestBody;
-import com.coherentlogic.coherent.data.model.core.adapters.InReturnAdapterSpecification;
+import com.coherentlogic.coherent.data.adapter.core.adapters.InReturnAdapterSpecification;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 

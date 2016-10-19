@@ -29,8 +29,8 @@ import com.coherentlogic.coherent.data.adapter.openfigi.core.extractors.DataExtr
 import com.coherentlogic.coherent.data.adapter.openfigi.core.factories.DataEntryFactory;
 import com.coherentlogic.coherent.data.adapter.openfigi.core.factories.DataFactory;
 import com.coherentlogic.coherent.data.adapter.openfigi.core.factories.ErrorEntryFactory;
-import com.coherentlogic.coherent.data.model.core.factories.TypedFactory;
-import com.coherentlogic.coherent.data.model.core.xstream.CustomMarshallingStrategy;
+import com.coherentlogic.coherent.data.adapter.core.factories.TypedFactory;
+import com.coherentlogic.coherent.data.adapter.core.xstream.CustomMarshallingStrategy;
 import com.google.gson.GsonBuilder;
 import com.google.gson.TypeAdapter;
 import com.thoughtworks.xstream.io.json.JettisonMappedXmlDriver;

@@ -1,7 +1,7 @@
 package com.coherentlogic.coherent.data.adapter.openfigi.core.adapters;
 
 import com.coherentlogic.coherent.data.model.core.domain.SerializableBean;
-import com.coherentlogic.coherent.data.model.core.factories.TypedFactory;
+import com.coherentlogic.coherent.data.adapter.core.factories.TypedFactory;
 import com.google.gson.GsonBuilder;
 import com.google.gson.TypeAdapter;
 

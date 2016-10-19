@@ -6,8 +6,8 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import com.coherentlogic.coherent.data.adapter.openfigi.core.domain.DataEntry;
-import com.coherentlogic.coherent.data.model.core.exceptions.MethodNotSupportedException;
-import com.coherentlogic.coherent.data.model.core.factories.TypedFactory;
+import com.coherentlogic.coherent.data.adapter.core.exceptions.MethodNotSupportedException;
+import com.coherentlogic.coherent.data.adapter.core.factories.TypedFactory;
 import com.google.gson.GsonBuilder;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
