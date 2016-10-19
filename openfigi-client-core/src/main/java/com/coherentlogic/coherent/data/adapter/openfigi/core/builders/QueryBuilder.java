@@ -80,7 +80,7 @@ public class QueryBuilder extends AbstractRESTQueryBuilder<RequestKey> {
         "***                                                                                                       ***",
         "***                     Welcome to the Coherent Data Adapter: OpenFIGI Client Edition                     ***",
         "***                                                                                                       ***",
-        "***                                         Version 0.9.0-RELEASE                                         ***",
+        "***                                         Version 0.9.1-RELEASE                                         ***",
         "***                                                                                                       ***",
         "***                              Please take a moment to follow us on Twitter:                            ***",
         "***                                                                                                       ***",
