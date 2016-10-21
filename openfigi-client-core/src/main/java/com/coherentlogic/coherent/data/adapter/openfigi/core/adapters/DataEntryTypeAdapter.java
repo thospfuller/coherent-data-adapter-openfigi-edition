@@ -6,6 +6,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import com.coherentlogic.coherent.data.adapter.openfigi.core.domain.DataEntry;
+import com.coherentlogic.coherent.data.adapter.openfigi.core.domain.ErrorEntry;
 import com.coherentlogic.coherent.data.adapter.core.exceptions.MethodNotSupportedException;
 import com.coherentlogic.coherent.data.adapter.core.factories.TypedFactory;
 import com.google.gson.GsonBuilder;
@@ -15,7 +16,7 @@ import com.google.gson.TypeAdapter;
 import com.google.gson.stream.JsonReader;
 import com.google.gson.stream.JsonWriter;
 
-public class DataEntryTypeAdapter extends TypeAdapter<DataEntry> {
+public class DataEntryTypeAdapter extends AbstractEntryTypeAdapter<DataEntry> {
 
     private static final Logger log = LoggerFactory.getLogger(DataEntryTypeAdapter.class);
 
@@ -33,22 +34,19 @@ public class DataEntryTypeAdapter extends TypeAdapter<DataEntry> {
 
     private final GsonBuilder gsonBuilder;
 
-    private final TypedFactory<DataEntry> dataEntryFactory;
-
     public DataEntryTypeAdapter(TypedFactory<DataEntry> dataEntryFactory) {
         this (new GsonBuilder(), dataEntryFactory);
     }
 
     public DataEntryTypeAdapter(GsonBuilder gsonBuilder, TypedFactory<DataEntry> dataEntryFactory) {
-        super();
+        super(dataEntryFactory);
         this.gsonBuilder = gsonBuilder;
-        this.dataEntryFactory = dataEntryFactory;
     }
 
     @Override
     public DataEntry read(JsonReader reader) throws IOException {
 
-        DataEntry result = dataEntryFactory.getInstance();
+        DataEntry result = getEntryFactory().getInstance();
 
         JsonObject dataEntryObject = gsonBuilder.create().fromJson(reader, JsonObject.class);
 
