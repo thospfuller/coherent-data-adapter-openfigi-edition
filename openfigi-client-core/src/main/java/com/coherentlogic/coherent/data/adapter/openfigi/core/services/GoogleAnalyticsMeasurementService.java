@@ -36,8 +36,8 @@ public class GoogleAnalyticsMeasurementService extends AbstractGoogleAnalyticsMe
             .withEc("Framework Usage") // event category
             .withAn("OpenFIGI Client") // application name
             .withEa("Framework Started") // event action
-            .withAv("Version 0.9.1-RELEASE") // Application version.
-            .withEl("Version 0.9.1-RELEASE")
+            .withAv("Version 1.0.0-RELEASE") // Application version.
+            .withEl("Version 1.0.0-RELEASE")
             .doPost();
 
         log.debug("fireGAFrameworkUsageEvent: method ends; response: " + response);
