@@ -87,7 +87,7 @@
     <modules>
         <!-- module>openfigi-client-assembly</module -->
         <module>openfigi-client-core</module>
-        <!-- module>openfigi-client-core-it</module -->
+        <module>openfigi-client-core-it</module>
         <module>openfigi-client-db-int</module>
         <module>openfigi-client-example</module>
     </modules>
