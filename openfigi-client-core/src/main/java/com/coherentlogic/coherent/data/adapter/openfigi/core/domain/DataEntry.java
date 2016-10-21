@@ -3,15 +3,20 @@ package com.coherentlogic.coherent.data.adapter.openfigi.core.domain;
 import javax.persistence.Entity;
 import javax.persistence.Table;
 
+import org.hibernate.annotations.Tuplizer;
+
+import com.coherentlogic.coherent.data.adapter.openfigi.core.hibernate.CGLIBEnhancedObjectTuplizer;
+import com.coherentlogic.coherent.data.model.core.annotations.Changeable;
 import com.coherentlogic.coherent.data.model.core.domain.SerializableBean;
 
 @Entity
 @Table(name=DataEntry.OPEN_FIGI_DATA_ENTRY)
+@Tuplizer(impl=CGLIBEnhancedObjectTuplizer.class)
 public class DataEntry extends SerializableBean<DataEntry> {
 
-    private static final long serialVersionUID = 6929758074820720468L;
+    private static final long serialVersionUID = 7961878075475785809L;
 
-    public static final String OPEN_FIGI_DATA_ENTRY = "openFigiDataEntry";
+    public static final String OPEN_FIGI_DATA_ENTRY = "openFIGIDataEntry";
 
     private String figi;
     private String name;
@@ -24,11 +29,17 @@ public class DataEntry extends SerializableBean<DataEntry> {
     private String shareClassFIGI;
     private String uniqueIDForFutureOption;
 
+//    public DataEntry () {
+//        new Exception ("getDataEntry called!").printStackTrace();
+//    }
+
     public String getFigi() {
         return figi;
     }
 
-    public void setFigi(String figi) {
+    public static final String FIGI = "figi";
+
+    public void setFigi(@Changeable(FIGI) String figi) {
         this.figi = figi;
     }
 
@@ -36,7 +47,9 @@ public class DataEntry extends SerializableBean<DataEntry> {
         return name;
     }
 
-    public void setName(String name) {
+    public static final String NAME = "name";
+
+    public void setName(@Changeable(NAME) String name) {
         this.name = name;
     }
 
@@ -44,7 +57,9 @@ public class DataEntry extends SerializableBean<DataEntry> {
         return ticker;
     }
 
-    public void setTicker(String ticker) {
+    public static final String TICKER = "ticker";
+
+    public void setTicker(@Changeable(TICKER) String ticker) {
         this.ticker = ticker;
     }
 
@@ -52,7 +67,9 @@ public class DataEntry extends SerializableBean<DataEntry> {
         return exchangeCode;
     }
 
-    public void setExchangeCode(String exchangeCode) {
+    public static final String EXCHANGE_CODE = "exchangeCode";
+
+    public void setExchangeCode(@Changeable(EXCHANGE_CODE) String exchangeCode) {
         this.exchangeCode = exchangeCode;
     }
 
@@ -60,7 +77,9 @@ public class DataEntry extends SerializableBean<DataEntry> {
         return compositeFIGI;
     }
 
-    public void setCompositeFIGI(String compositeFIGI) {
+    public static final String COMPOSITE_FIGI = "compositeFIGI";
+
+    public void setCompositeFIGI(@Changeable(COMPOSITE_FIGI) String compositeFIGI) {
         this.compositeFIGI = compositeFIGI;
     }
 
@@ -68,7 +87,9 @@ public class DataEntry extends SerializableBean<DataEntry> {
         return uniqueID;
     }
 
-    public void setUniqueID(String uniqueID) {
+    public static final String UNIQUE_ID = "uniqueID";
+
+    public void setUniqueID(@Changeable(UNIQUE_ID) String uniqueID) {
         this.uniqueID = uniqueID;
     }
 
@@ -76,7 +97,9 @@ public class DataEntry extends SerializableBean<DataEntry> {
         return securityType;
     }
 
-    public void setSecurityType(String securityType) {
+    public static final String SECURITY_TYPE = "securityType";
+
+    public void setSecurityType(@Changeable(SECURITY_TYPE) String securityType) {
         this.securityType = securityType;
     }
 
@@ -84,7 +107,9 @@ public class DataEntry extends SerializableBean<DataEntry> {
         return marketSector;
     }
 
-    public void setMarketSector(String marketSector) {
+    public static final String MARKET_SECTOR = "marketSector";
+
+    public void setMarketSector(@Changeable(MARKET_SECTOR) String marketSector) {
         this.marketSector = marketSector;
     }
 
@@ -92,7 +117,9 @@ public class DataEntry extends SerializableBean<DataEntry> {
         return shareClassFIGI;
     }
 
-    public void setShareClassFIGI(String shareClassFIGI) {
+    public static final String SHARE_CLASS_FIGI = "shareClassFIGI";
+
+    public void setShareClassFIGI(@Changeable(SHARE_CLASS_FIGI) String shareClassFIGI) {
         this.shareClassFIGI = shareClassFIGI;
     }
 
@@ -100,7 +127,9 @@ public class DataEntry extends SerializableBean<DataEntry> {
         return uniqueIDForFutureOption;
     }
 
-    public void setUniqueIDForFutureOption(String uniqueIDForFutureOption) {
+    public static final String UNIQUE_ID_FOR_FUTURE_OPTION = "uniqueIDForFutureOption";
+
+    public void setUniqueIDForFutureOption(@Changeable(UNIQUE_ID_FOR_FUTURE_OPTION) String uniqueIDForFutureOption) {
         this.uniqueIDForFutureOption = uniqueIDForFutureOption;
     }
 
@@ -109,6 +138,6 @@ public class DataEntry extends SerializableBean<DataEntry> {
         return "DataEntry [figi=" + figi + ", name=" + name + ", ticker=" + ticker + ", exchangeCode=" + exchangeCode
             + ", compositeFIGI=" + compositeFIGI + ", uniqueID=" + uniqueID + ", securityType=" + securityType
             + ", marketSector=" + marketSector + ", shareClassFIGI=" + shareClassFIGI + ", uniqueIDForFutureOption="
-            + uniqueIDForFutureOption + "]";
+            + uniqueIDForFutureOption + ", toString()=" + super.toString() + "]";
     }
 }
