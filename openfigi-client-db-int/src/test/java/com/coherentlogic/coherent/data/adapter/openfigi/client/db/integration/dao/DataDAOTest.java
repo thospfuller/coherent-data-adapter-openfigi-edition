@@ -1,5 +1,6 @@
 package com.coherentlogic.coherent.data.adapter.openfigi.client.db.integration.dao;
 
+import java.util.Collection;
 import java.util.List;
 
 import org.junit.After;
@@ -79,11 +80,11 @@ public class DataDAOTest {
         // See also ScopedBeanInterceptor
 
         for (List<? extends SerializableBean> nextEntries : data.getEntries()) {
-            for (SerializableBean<?> nextEntry : nextEntries) {
-                if (nextEntry instanceof DataEntry) {
-                    dataEntryDAO.persist((DataEntry) nextEntry);
-                } else if (nextEntry instanceof ErrorEntry) {
-                    errorEntryDAO.persist((ErrorEntry) nextEntry);
+            if (0 < nextEntries.size()) {
+                if (nextEntries.get(0) instanceof DataEntry) {
+                    dataEntryDAO.persist((Collection<DataEntry>) nextEntries);
+                } else {
+                    errorEntryDAO.persist((Collection<ErrorEntry>) nextEntries);
                 }
             }
         }
