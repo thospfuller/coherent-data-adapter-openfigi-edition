@@ -24,6 +24,12 @@ import com.google.gson.TypeAdapter;
 import com.google.gson.stream.JsonReader;
 import com.google.gson.stream.JsonWriter;
 
+/**
+ * An adapter that converts JSON into an instance of {@link Data}.
+ *
+ * @author <a href="https://www.linkedin.com/in/thomasfuller">Thomas P. Fuller</a>
+ * @author <a href="mailto:support@coherentlogic.com">Support</a>
+ */
 public class DataTypeAdapter extends TypeAdapter<Data> {
 
     private static final Logger log = LoggerFactory.getLogger(DataTypeAdapter.class);

@@ -5,14 +5,20 @@ import java.io.IOException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import com.coherentlogic.coherent.data.adapter.openfigi.core.domain.ErrorEntry;
 import com.coherentlogic.coherent.data.adapter.core.exceptions.MethodNotSupportedException;
 import com.coherentlogic.coherent.data.adapter.core.factories.TypedFactory;
+import com.coherentlogic.coherent.data.adapter.openfigi.core.domain.ErrorEntry;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.google.gson.stream.JsonReader;
 import com.google.gson.stream.JsonWriter;
 
+/**
+ * An adapter that converts JSON into an instance of {@link ErrorEntry}.
+ *
+ * @author <a href="https://www.linkedin.com/in/thomasfuller">Thomas P. Fuller</a>
+ * @author <a href="mailto:support@coherentlogic.com">Support</a>
+ */
 public class ErrorEntryTypeAdapter extends AbstractEntryTypeAdapter<ErrorEntry> {
 
     public static final String BEAN_NAME = "errorEntryTypeAdapter", ERROR = "error";

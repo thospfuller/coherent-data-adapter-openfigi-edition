@@ -5,17 +5,21 @@ import java.io.IOException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import com.coherentlogic.coherent.data.adapter.openfigi.core.domain.DataEntry;
-import com.coherentlogic.coherent.data.adapter.openfigi.core.domain.ErrorEntry;
 import com.coherentlogic.coherent.data.adapter.core.exceptions.MethodNotSupportedException;
 import com.coherentlogic.coherent.data.adapter.core.factories.TypedFactory;
+import com.coherentlogic.coherent.data.adapter.openfigi.core.domain.DataEntry;
 import com.google.gson.GsonBuilder;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
-import com.google.gson.TypeAdapter;
 import com.google.gson.stream.JsonReader;
 import com.google.gson.stream.JsonWriter;
 
+/**
+ * An adapter that converts JSON into an instance of {@link DataEntry}.
+ *
+ * @author <a href="https://www.linkedin.com/in/thomasfuller">Thomas P. Fuller</a>
+ * @author <a href="mailto:support@coherentlogic.com">Support</a>
+ */
 public class DataEntryTypeAdapter extends AbstractEntryTypeAdapter<DataEntry> {
 
     private static final Logger log = LoggerFactory.getLogger(DataEntryTypeAdapter.class);
