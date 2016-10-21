@@ -10,6 +10,14 @@ import com.coherentlogic.coherent.data.adapter.openfigi.core.domain.ErrorEntry;
 import com.coherentlogic.coherent.data.adapter.openfigi.core.exceptions.EntityNameResolutionRuntimeException;
 
 /**
+ * This class maps enhanced classes to their proper (Hibernate-registered) class.
+ *
+ * This framework enhances the domain model using AOP and this can cause a problem when with JPA/Hibernate (in
+ * particular) because Hibernate does not recognize a class with name ie. DataEntry$$EnhancerBySpringCGLIB$$65cfe30a so
+ * without this class we'll see exceptions such as what appears below.
+ * 
+ * java.lang.IllegalArgumentException: Unknown entity:
+ * com.coherentlogic.coherent.data.adapter.openfigi.core.domain.DataEntry$$EnhancerBySpringCGLIB$$65cfe30a
  * 
  * @author <a href="https://www.linkedin.com/in/thomasfuller">Thomas P. Fuller</a>
  * @author <a href="mailto:support@coherentlogic.com">Support</a>
@@ -43,8 +51,6 @@ class OpenFIGIEntityNameResolver implements EntityNameResolver {
             result = ErrorEntry.class.getName();
         } else
             throw new EntityNameResolutionRuntimeException (object);
-
-        System.out.println("result: " + result + ", for: " + object);
 
         return result;
     }
