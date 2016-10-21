@@ -2,14 +2,10 @@ package com.coherentlogic.coherent.data.adapter.openfigi.client.db.integration.d
 
 import java.util.List;
 
-import javax.persistence.EntityManager;
-
 import org.junit.After;
-import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.ApplicationContext;
 import org.springframework.test.annotation.Rollback;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
@@ -52,16 +48,8 @@ public class DataDAOTest {
     @Autowired
     private QueryBuilder queryBuilder;
 
-//    @Before
-//    public void setUp () {
-//        this.dataEntryDAO = applicationContext.getBean(DataEntryDAO.class);
-//        this.errorEntryDAO = applicationContext.getBean(ErrorEntryDAO.class);
-//        this.queryBuilder = applicationContext.getBean(QueryBuilder.class);
-//    }
-
     @After
     public void tearDown() throws Exception {
-//        applicationContext = null;
         dataEntryDAO = null;
         errorEntryDAO = null;
         queryBuilder = null;
@@ -93,68 +81,11 @@ public class DataDAOTest {
         for (List<? extends SerializableBean> nextEntries : data.getEntries()) {
             for (SerializableBean<?> nextEntry : nextEntries) {
                 if (nextEntry instanceof DataEntry) {
-
-                    nextEntry.addPropertyChangeListener(
-                        event -> {
-                            System.out.println ("ZZZZZZ>>>! " + event);
-                        }
-                    );
-
                     dataEntryDAO.persist((DataEntry) nextEntry);
-
                 } else if (nextEntry instanceof ErrorEntry) {
-
-                    nextEntry.addPropertyChangeListener(
-                        event -> {
-                            System.out.println ("FEEEEE>>>! " + event);
-                        }
-                    );
-
                     errorEntryDAO.persist((ErrorEntry) nextEntry);
                 }
             }
         }
     }
-
-//    @Test
-//    public void reviewCRUDOperations () {
-//
-//        List<Category> categoryList = categories.getCategoryList();
-//
-//        Category firstCategory = categoryList.get(0);
-//
-//        assertNull (firstCategory.getPrimaryKey());
-//        assertNotNull (categoryList);
-//        assertEquals (2, categoryList.size());
-//
-//        categoriesDAO.persist(categories);
-//
-//        Long uniqueId = categories.getPrimaryKey();
-//
-//        assertNotNull (uniqueId);
-//
-//        Categories persistedCategories = categoriesDAO.find(uniqueId);
-//
-//        List<Category> persistedCategoryList =
-//            persistedCategories.getCategoryList();
-//
-//        assertNotNull (persistedCategories);
-//        assertEquals (2, persistedCategoryList.size());
-//
-//        persistedCategoryList.remove(0);
-//
-//        categoriesDAO.merge(persistedCategories);
-//
-//        Categories mergedPersistedCategories = categoriesDAO.find(uniqueId);
-//
-//        persistedCategoryList = mergedPersistedCategories.getCategoryList();
-//
-//        assertEquals (1, persistedCategoryList.size());
-//
-//        categoriesDAO.remove(mergedPersistedCategories);
-//
-//        Categories nullCategories = categoriesDAO.find(uniqueId);
-//
-//        assertNull (nullCategories);
-//    }
 }
