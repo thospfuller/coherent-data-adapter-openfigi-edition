@@ -1,10 +1,11 @@
 package com.coherentlogic.coherent.data.adapter.openfigi.client.db.integration.dao;
 
+import java.util.Collection;
+
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.coherentlogic.coherent.data.adapter.core.db.integration.dao.SerializableDAO;
-import com.coherentlogic.coherent.data.adapter.openfigi.core.domain.DataEntry;
 import com.coherentlogic.coherent.data.adapter.openfigi.core.domain.ErrorEntry;
 
 /**
@@ -21,5 +22,10 @@ public class ErrorEntryDAO extends SerializableDAO<ErrorEntry> {
     @Override
     public ErrorEntry find(long primaryKey) {
         return find (ErrorEntry.class, primaryKey);
+    }
+
+    public void persist(Collection<ErrorEntry> errorEntries) {
+        for (ErrorEntry nextErrorEntry : errorEntries)
+            persist(nextErrorEntry);
     }
 }

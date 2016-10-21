@@ -26,10 +26,8 @@ public class DataEntryDAO extends SerializableDAO<DataEntry> {
         return find (DataEntry.class, primaryKey);
     }
 
-//    public void persist(Collection<DataEntry> dataEntries) {
-//        for (DataEntry nextDataEntry : dataEntries)
-//            persist(nextDataEntry);
-//    }
-
-    
+    public void persist(Collection<DataEntry> dataEntries) {
+        for (DataEntry nextDataEntry : dataEntries)
+            persist(nextDataEntry);
+    }
 }
