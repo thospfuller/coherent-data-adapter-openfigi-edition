@@ -6,16 +6,15 @@ import javax.persistence.Transient;
 
 import com.coherentlogic.coherent.data.adapter.openfigi.core.exceptions.InvalidMappingEntryConfigurationException;
 import com.coherentlogic.coherent.data.model.core.annotations.Changeable;
-import com.coherentlogic.coherent.data.model.core.domain.SerializableBean;
 import com.google.gson.annotations.Expose;
 
 /**
- * 
- * @author <a href="support@coherentlogic.com">Support</a>
+ * @author <a href="https://www.linkedin.com/in/thomasfuller">Thomas P. Fuller</a>
+ * @author <a href="mailto:support@coherentlogic.com">Support</a>
  */
-public class MappingEntry extends SerializableBean<MappingEntry> {
+public class MappingEntry {
 
-    private static final long serialVersionUID = -1786472253113680311L;
+    public static final String OPEN_FIGI_MAPPING_ENTRY = "openFIGIMappingEntry";
 
     public static final String ID_ISIN = "ID_ISIN",
         ID_BB_UNIQUE = "ID_BB_UNIQUE",

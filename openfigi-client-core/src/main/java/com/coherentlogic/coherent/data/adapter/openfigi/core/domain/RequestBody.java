@@ -5,15 +5,15 @@ import java.util.List;
 
 import com.coherentlogic.coherent.data.adapter.openfigi.core.builders.QueryBuilder;
 import com.coherentlogic.coherent.data.adapter.openfigi.core.exceptions.ConstraintViolationException;
-import com.coherentlogic.coherent.data.model.core.domain.SerializableBean;
 import com.coherentlogic.coherent.data.model.core.util.Utils;
 
 /**
- * @author <a href="support@coherentlogic.com">Support</a>
+ * @author <a href="https://www.linkedin.com/in/thomasfuller">Thomas P. Fuller</a>
+ * @author <a href="mailto:support@coherentlogic.com">Support</a>
  */
-public class RequestBody extends SerializableBean<RequestBody> {
+public class RequestBody {
 
-    private static final long serialVersionUID = 1177536240623915122L;
+    public static final String OPEN_FIGI_REQUEST_BODY = "openFIGIRequestBody";
 
     public static final int CUSIP_8_LENGTH = 8;
 
