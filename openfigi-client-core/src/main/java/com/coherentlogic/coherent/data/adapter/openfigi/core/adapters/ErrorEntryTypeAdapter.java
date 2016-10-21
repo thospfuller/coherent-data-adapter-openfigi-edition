@@ -15,7 +15,7 @@ import com.google.gson.stream.JsonWriter;
 
 public class ErrorEntryTypeAdapter extends AbstractEntryTypeAdapter<ErrorEntry> {
 
-	public static final String BEAN_NAME = "errorEntryTypeAdapter";
+    public static final String BEAN_NAME = "errorEntryTypeAdapter", ERROR = "error";
 
     private static final Logger log = LoggerFactory.getLogger(ErrorEntryTypeAdapter.class);
 
@@ -30,7 +30,7 @@ public class ErrorEntryTypeAdapter extends AbstractEntryTypeAdapter<ErrorEntry> 
 
         JsonObject errorEntryObject = getGsonBuilder().create().fromJson(reader, JsonObject.class);
 
-        JsonElement errorElement = errorEntryObject.get("error");
+        JsonElement errorElement = errorEntryObject.get(ERROR);
 
         if (!errorElement.isJsonNull()) {
 
