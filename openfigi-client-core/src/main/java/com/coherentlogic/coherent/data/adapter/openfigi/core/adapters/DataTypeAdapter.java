@@ -7,12 +7,14 @@ import java.util.List;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.ApplicationContext;
 
+import com.coherentlogic.coherent.data.adapter.core.exceptions.MethodNotSupportedException;
+import com.coherentlogic.coherent.data.adapter.core.factories.TypedFactory;
 import com.coherentlogic.coherent.data.adapter.openfigi.core.domain.Data;
 import com.coherentlogic.coherent.data.adapter.openfigi.core.domain.DataEntry;
 import com.coherentlogic.coherent.data.adapter.openfigi.core.domain.ErrorEntry;
-import com.coherentlogic.coherent.data.adapter.core.exceptions.MethodNotSupportedException;
-import com.coherentlogic.coherent.data.adapter.core.factories.TypedFactory;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.JsonArray;
@@ -31,6 +33,9 @@ public class DataTypeAdapter extends TypeAdapter<Data> {
     private final GsonBuilder gsonBuilder;
 
     private final TypedFactory<Data> dataFactory;
+
+    @Autowired
+    private ApplicationContext applicationContext;
 
     public DataTypeAdapter(
         GsonBuilder gsonBuilder,
@@ -65,12 +70,16 @@ public class DataTypeAdapter extends TypeAdapter<Data> {
 
             List<DataEntry> dataEntries = addData (gson, dataElement);
 
+            result.getEntries().add(dataEntries);
+
             if (0 < dataEntries.size())
                 result.getEntries().add(dataEntries);
 
             JsonElement errorElement = resultantObject.get("error");
 
             List<ErrorEntry> errorEntries = addErrors(gson, errorElement);
+
+            result.getEntries().add(errorEntries);
 
             if (0 < errorEntries.size())
                 result.getEntries().add(errorEntries);
@@ -145,7 +154,7 @@ public class DataTypeAdapter extends TypeAdapter<Data> {
 
                 log.info("errorText: " + errorText);
 
-                ErrorEntry nextEntry = new ErrorEntry ();
+                ErrorEntry nextEntry = applicationContext.getBean(ErrorEntry.class);
 
                 nextEntry.setError(errorText);
 
